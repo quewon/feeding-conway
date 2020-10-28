@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>a</title>
+	<style>
+		:root {
+			--size: 500px;
+			background-color: #303030;
+		}
+		canvas {
+			position: absolute;
+			width: var(--size);
+			height: var(--size);
+			left: 50%;
+			top: 50%;
+			transform: translate(-50%, -50%);
+			cursor: none;
+			display: none;
+		}
+		div {
+			position: absolute;
+			width: var(--size);
+			height: var(--size);
+			left: 50%;
+			top: 50%;
+			transform: translate(-50%, -50%);
+			cursor: pointer;
+			font-family: monospace;
+		}
+		p {
+			margin: calc(var(--size)/5);
+		}
+	</style>
+</head>
+
+<body>
+	<div><p>welcome to my petri dish!!!!!!!!</p></div>
+	<canvas></canvas>
+</body>
+
+<script src="canvas.js"></script>
+<script src="init.js"></script>
+<script src="grid.js"></script>
+<script src="behavior.js"></script>
+<script src="mouse.js"></script>
+<script>
+	window.setInterval(function() {
+		update();
+	}, 70)
+	genRandomCells();
+	animate();
+</script>
+
+</html>
