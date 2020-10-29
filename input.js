@@ -1,4 +1,4 @@
-var behavior_setting = 'lazy';
+var behavior_setting = 'gooey';
 
 mouse = {x:0,y:0,down:false};
 
@@ -20,3 +20,12 @@ window.onmousemove = function(e) {
 		behavior[behavior_setting].cells.push(getCell(mouse.x, mouse.y));
 	}
 };
+
+window.addEventListener("keypress", function(e) {
+	let k = event.keyCode || event.which;
+
+	if (k===32) {
+		event.preventDefault();
+		updating = !updating;
+	}
+});
