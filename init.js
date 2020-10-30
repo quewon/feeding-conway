@@ -1,4 +1,4 @@
-var cellsize = 20;
+var cellsize = 10;
 //number of chunks on axis (there are chunks^2 chunks)
 var chunks = 4;
 

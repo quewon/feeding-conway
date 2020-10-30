@@ -168,25 +168,7 @@ var unused_warp_effect = function(cell) {
 var clear_cells = [];
 
 function surrounding(cell) {
-	let cisc = getCellsInSameChunk(cell);
-	let s = [], i = 0, len = cisc.length;
-
-	while (i < len) {
-		let x = cells[cisc[i]].x, y = cells[cisc[i]].y;
-		let cx = cells[cell].x, cy = cells[cell].y;
-
-		if (
-			( (x == cx+1 || x == cx-1) && (y == cy+1 || y == cy-1) ) ||
-			( x == cx && (y-1 == cy || y+1 == cy) ) ||
-			( (x-1 == cx || x+1 == cx) && y == cy )
-			) {
-			s.push(cisc[i])
-		}
-
-		i++
-	}
-
-	return s
+	return cells[cell].surrounding;
 }
 
 function surroundingActive(cell, cs) {

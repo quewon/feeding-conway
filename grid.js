@@ -37,6 +37,7 @@ function genRandomCells() {
 			cells[cellnumber].x = ii;
 			cells[cellnumber].y = i;
 			cells[cellnumber].chunk = setChunk(cellnumber);
+			cells[cellnumber].surrounding = setSurrounding(cellnumber);
 
 			if (Math.floor(Math.random() * 5) == 1) {
 				let b = Object.keys(behavior)[Math.floor(Math.random() * Object.keys(behavior).length)];
@@ -77,6 +78,12 @@ function getChunkArray() {
 		}
 		ix++
 	}
+
+	for (i=0; i<cell_length; i++) {
+		cells[i].surrounding = setSurrounding(i);
+	}
+
+	console.log(cells[0].surrounding);
 }
 
 function setChunk(cell) {
@@ -177,6 +184,28 @@ function getCellsInSameChunk(cell) {
 	//for (i=0; i<chunk_array[x][y].length; i++) { cells[chunk_array[x][y][i]].color = getRandomColor(); }
 
 	return array
+}
+
+function setSurrounding(cell) {
+	let cisc = getCellsInSameChunk(cell);
+	let s = [], i = 0, len = cisc.length;
+
+	while (i < len) {
+		let x = cells[cisc[i]].x, y = cells[cisc[i]].y;
+		let cx = cells[cell].x, cy = cells[cell].y;
+
+		if (
+			( (x == cx+1 || x == cx-1) && (y == cy+1 || y == cy-1) ) ||
+			( x == cx && (y-1 == cy || y+1 == cy) ) ||
+			( (x-1 == cx || x+1 == cx) && y == cy )
+			) {
+			s.push(cisc[i])
+		}
+
+		i++
+	}
+
+	return s
 }
 
 function drawGrid() {
