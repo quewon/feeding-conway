@@ -1,5 +1,3 @@
-var behavior_setting = 'gooey';
-
 mouse = {x:0,y:0,down:false};
 
 canvas.onmousedown = function() { mouse.down = true };
@@ -16,10 +14,23 @@ window.onmousemove = function(e) {
 	highlight.y = mouse.y;
 
 	if (mouse.down && mouse.x >= 0 && mouse.x <= canvas.width && mouse.y >= 0 && mouse.y <= canvas.height) {
-		setCell(getCell(mouse.x, mouse.y), behavior_setting);
-		behavior[behavior_setting].cells.push(getCell(mouse.x, mouse.y));
+		let cell = getCell(mouse.x,mouse.y);
+		setCell(cell, behavior_setting);
+		behavior[behavior_setting].cells.push(cell);
+
+		//debug(cell)
 	}
 };
+
+window.onclick = function(e) {
+	if (mouse.x >= 0 && mouse.x <= canvas.width && mouse.y >= 0 && mouse.y <= canvas.height) {
+		let cell = getCell(mouse.x,mouse.y);
+		setCell(cell, behavior_setting);
+		behavior[behavior_setting].cells.push(cell);
+
+		//debug(cell)
+	}
+}
 
 window.addEventListener("keypress", function(e) {
 	let k = event.keyCode || event.which;
@@ -29,3 +40,9 @@ window.addEventListener("keypress", function(e) {
 		updating = !updating;
 	}
 });
+
+function debug(cell) {
+	let cs = surrounding(cell);
+	console.log(cell, cs);
+	for (i=0; i<cs.length; i++) { cells[cs[i]].color = getRandomColor(); }
+}

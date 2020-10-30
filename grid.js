@@ -1,5 +1,6 @@
 var cells = [];
 var active_cells = [];
+var cell_length = cell_v = cell_h = 0;
 
 function genEmptyCells() {
 	let vc = Math.ceil(canvas.height / cellsize);
@@ -12,11 +13,16 @@ function genEmptyCells() {
 			cells[cellnumber] = {};
 			cells[cellnumber].x = ii;
 			cells[cellnumber].y = i;
+			cells[cellnumber].chunk = setChunk(cellnumber);
 			cells[cellnumber].color = colors.bg;
 			cells[cellnumber].behavior = undefined;
 			cellnumber++;
 		}
 	}
+
+	cell_length = cells.length;
+	
+	getChunkArray();
 }
 
 function genRandomCells() {
@@ -30,6 +36,7 @@ function genRandomCells() {
 			cells[cellnumber] = {};
 			cells[cellnumber].x = ii;
 			cells[cellnumber].y = i;
+			cells[cellnumber].chunk = setChunk(cellnumber);
 
 			if (Math.floor(Math.random() * 5) == 1) {
 				let b = Object.keys(behavior)[Math.floor(Math.random() * Object.keys(behavior).length)];
@@ -41,14 +48,143 @@ function genRandomCells() {
 			cellnumber++;
 		}
 	}
+
+	cell_length = cells.length;
+	getChunkArray();
+	update();
+}
+
+function getChunkArray() {
+	chunk_array = [];
+	let ix=iy=0;
+	while (ix<chunks) {
+		chunk_array[ix] = [];
+		iy=0;
+		while(iy < chunks) {
+			chunk_array[ix][iy] = [];
+
+			let i=0, len=cell_length;
+			while (i<len) {
+				let cx = cells[i].chunk.x;
+				let cy = cells[i].chunk.y;
+
+				if (cx.includes(ix) && cy.includes(iy)) {
+					chunk_array[ix][iy].push(i)
+				}
+				i++
+			}
+			iy++
+		}
+		ix++
+	}
+}
+
+function setChunk(cell) {
+	let cell_v = Math.floor(canvas.height / cellsize)-1;
+	let cell_h = Math.floor(canvas.width / cellsize)-1;
+
+	let chunk={x:[],y:[]};
+	cell = cells[cell];
+
+	//get horizontal chunk
+	let i=0, len=chunks;
+	while (i<len) {
+		let border_right = Math.ceil(cell_h/chunks * (i+1));
+		let border = Math.ceil(cell_h/chunks * i);
+
+		if (cell.x > border && cell.x < border_right) {
+			chunk.x.push(i)
+		} else {
+			if (cell.x   == border_right ||
+				cell.x-1 == border_right ||
+				cell.x+1 == border_right)
+			{
+				chunk.x.push(i)
+			}
+
+			if (cell.x   == border ||
+				cell.x-1 == border ||
+				cell.x+1 == border)
+			{
+				chunk.x.push(i)
+			}
+		}
+		i++
+	}
+
+	//get vertical chunk
+	i=0;
+	while (i<len) {
+		let border_bottom = Math.ceil(cell_v/chunks * (i+1));
+		let border = Math.ceil(cell_v/chunks * i);
+
+		if (cell.y > border && cell.y < border_bottom) {
+			chunk.y.push(i)
+		} else {
+			if (cell.y   == border_bottom ||
+				cell.y-1 == border_bottom ||
+				cell.y+1 == border_bottom)
+			{
+				chunk.y.push(i)
+			}
+
+			if (cell.y   == border ||
+				cell.y-1 == border ||
+				cell.y+1 == border)
+			{
+				chunk.y.push(i)
+			}
+		}
+		i++
+	}
+
+	return chunk
+}
+
+function getCellsInSameChunk(cell) {
+	let array = [];
+
+	let x = cells[cell].chunk.x;
+	let y = cells[cell].chunk.y;
+
+	let ix=iy=0;
+	while (ix<chunks) {
+		iy=0;
+		while(iy < chunks) {
+			if (x.includes(ix) && y.includes(iy)) {
+				array = array.concat(chunk_array[ix][iy]);
+			}
+			iy++
+		}
+		ix++
+	}
+
+	//remove duplicates from array
+	let seen = {};
+    let out = [];
+    let len = array.length;
+    let j = 0;
+    for(let i = 0; i < len; i++) {
+         let item = array[i];
+         if(seen[item] !== 1) {
+               seen[item] = 1;
+               out[j++] = item;
+         }
+    }
+    array = out;
+
+	//debug
+	//for (i=0; i<chunk_array[x][y].length; i++) { cells[chunk_array[x][y][i]].color = getRandomColor(); }
+
+	return array
 }
 
 function drawGrid() {
-	for (let i=0; i<cells.length; i++) {
+	let i=0;
+	while (i < cell_length) {
 		c.fillStyle = cells[i].color;
-		let x = cells[i].x * cellsize;
-		let y = cells[i].y * cellsize;
-		c.fillRect(x, y, cellsize, cellsize);
+		c.fillRect(cells[i].x * cellsize, cells[i].y * cellsize, cellsize, cellsize);
+		i++
 	}
 
 	let hl = cells[getCell(highlight.x, highlight.y)];
@@ -59,11 +195,15 @@ function drawGrid() {
 }
 
 function getCell(x, y) {
-	for (let i=0; i<cells.length; i++) {
+	let i=0;
+	while (i < cell_length) {
 		if (cells[i].x==Math.floor(x/cellsize) && cells[i].y==Math.floor(y/cellsize)) {
 			return i
 		}
+		i++
 	}
+
+	return null
 }
 
 function getRandomColor() {
