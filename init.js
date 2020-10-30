@@ -1,6 +1,6 @@
-var cellsize = 10;
+var cellsize = 20;
 //number of chunks on axis (there are chunks^2 chunks)
-var chunks = 8;
+var chunks = 4;
 
 colors = {};
 colors.bg = '#303030';
