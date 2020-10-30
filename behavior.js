@@ -12,6 +12,22 @@ function subtractArray(a, b) {
 	return newarray
 }
 
+var behavior_index = 0;
+var behavior_setting = 'lazy';
+function cycle(dir) {
+	let bs = Object.keys(behavior);
+
+	behavior_index += dir;
+	if (behavior_index<0) {
+		behavior_index = bs.length-1
+	} else if (behavior_index > bs.length-1) {
+		behavior_index = 0
+	}
+
+	behavior_setting = Object.keys(behavior)[behavior_index];
+	document.getElementById("cycler").textContent = behavior_setting;
+}
+
 behavior.lazy = {};
 behavior.lazy.color = colors.e;
 behavior.lazy.func = function(cell) {

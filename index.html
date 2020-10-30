@@ -7,6 +7,7 @@
 		:root {
 			--size: 500px;
 			background-color: #303030;
+			font-family: monospace;
 		}
 		canvas {
 			position: absolute;
@@ -18,7 +19,7 @@
 			cursor: none;
 			display: none;
 		}
-		div {
+		#main {
 			position: absolute;
 			width: var(--size);
 			height: var(--size);
@@ -26,17 +27,35 @@
 			top: 50%;
 			transform: translate(-50%, -50%);
 			cursor: pointer;
-			font-family: monospace;
 		}
 		p {
 			margin: calc(var(--size)/5);
+		}
+		span {
+			font-family: inherit;
+			color: inherit;
+			padding: 1em;
+		}
+		#nav {
+			position: absolute;
+			width: var(--size);
+			text-align: center;
+			left: 50%;
+			top: calc(50% + var(--size)/2 + 2em);
+			transform: translate(-50%,-50%);
+		}
+		button {
+			cursor: pointer;
 		}
 	</style>
 </head>
 
 <body>
-	<div><p>welcome to my petri dish!!!!!!!!</p></div>
+	<div id="main"><p>welcome to my petri dish!!!!!!!!</p></div>
 	<canvas></canvas>
+	<div id="nav">
+		<button style="float:left" onclick="cycle(-1)"><</button><span id="cycler">lazy</span><button style="float:right" onclick="cycle(1)">></button>
+	</div>
 </body>
 
 <script src="canvas.js"></script>
@@ -48,8 +67,8 @@
 	window.setInterval(function() {
 		update();
 	}, 50)
-	genRandomCells();
-	//genEmptyCells();
+	//genRandomCells();
+	genEmptyCells();
 	animate();
 </script>
 
