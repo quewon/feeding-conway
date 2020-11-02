@@ -67,7 +67,7 @@ function drawBG() {
 	if (scenes[scenes.current].parallax) {
 		let p = parallaxs[scenes[scenes.current].parallax];
 
-		if (p.counter) {
+		if ('counter' in p) {
 			p.counter+=p.speed;
 			if (p.counter>p.img.width*10) {
 				p.counter = 0
