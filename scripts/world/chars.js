@@ -8,13 +8,14 @@ char_context.imageSmoothingEnabled = false;
 //chars
 var chars = {};
 
-function createChar(name) {
+function createChar(name, text) {
 	chars[name] = {};
 	chars[name].x = chars[name].y = 0;
 	chars[name].img = new Image();
 	chars[name].frame = [0, 1]; //frame 0 out of 1
 	chars[name].vis = [0, 0, 7, 14];
 	chars[name].img.src = "assets/sprites/"+name+".png";
+	chars[name].text = text;
 }
 
 function setChar(name, x, y) {
@@ -50,6 +51,28 @@ function moveChar(name, axis, dir) {
 	animateChar(name)
 }
 
+//https://stackoverflow.com/a/28416298/9375514
+function outlineChar(name) {
+	var dArr = [-1,-1, 0,-1, 1,-1, -1,0, 1,0, -1,1, 0,1, 1,1], // offset array
+	    s = 3,  // thickness scale
+	    i = 0,  // iterator
+	    x = 5,  // final position
+	    y = 5;
+
+	let c = chars[name];
+	let offset = 5;
+	  
+ 	for(; i < dArr.length; i += 2)
+ 		char_context.drawImage(c.img, c.vis[0], c.vis[1], c.vis[2], c.vis[3], (x+dArr[i]*s)+c.x*ps-offset, (y+dArr[i+1]*s)+c.y*ps-offset, c.vis[2]*ps, c.vis[3]*ps);
+	  
+	char_context.globalCompositeOperation = "source-in";
+	char_context.fillStyle = "#ebf2e7";
+	char_context.fillRect(0,0,char.width, char.height);
+
+	char_context.globalCompositeOperation = "source-over";
+	char_context.drawImage(c.img, c.vis[0], c.vis[1], c.vis[2], c.vis[3], c.x*ps, c.y*ps, c.vis[2]*ps, c.vis[3]*ps);
+}
+
 function changeFace(name, face) {
 	let c = chars[name];
 
@@ -81,10 +104,12 @@ function animateChar(name, f) {
 function stopChars() {
 	let cs = scenes[scenes.current].chars;
 
-	for (let i=0; i<cs.length; i++) {
-		let c = cs[i].name;
-		if (chars[c].frame[0] != 0) {
-			animateChar(c, 0)
+	if (cs) {
+		for (let i=0; i<cs.length; i++) {
+			let c = cs[i].name;
+			if (chars[c].frame[0] != 0) {
+				animateChar(c, 0)
+			}
 		}
 	}
 }

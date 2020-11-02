@@ -2,7 +2,7 @@ createPX('light', 5);
 createPX('title', 0);
 createPX('train_cars', 0);
 createBG('train_car', 44, 58, 68, 21, 'train_cars');
-createChar('player');
+createChar('player', "it's you.");
 createFG('train_car_fg');
 //i could put translucent white on the foreground to simulate lighting
 
@@ -51,6 +51,9 @@ scenes.train_light = {
 
 function setScene(name) {
 	console.log("scene: "+name);
+
+	text.style.display = 'none';
+
 	//set the scene
 	let s = scenes[name];
 

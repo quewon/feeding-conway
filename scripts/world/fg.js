@@ -20,4 +20,13 @@ function drawFG() {
 	if (foreground) {
 		fg_context.drawImage(foreground.img, 0, 0, foreground.img.width*ps, foreground.img.height*ps);
 	}
+
+	if (cursor.x && cursor.y) {
+		fg_context.fillStyle = "#1c4d65";
+		fg_context.fillRect(cursor.x,cursor.y,1*ps,1*ps);
+		fg_context.fillRect(cursor.x-ps,cursor.y,1*ps,1*ps);
+		fg_context.fillRect(cursor.x+ps,cursor.y,1*ps,1*ps);
+		fg_context.fillRect(cursor.x,cursor.y-ps,1*ps,1*ps);
+		fg_context.fillRect(cursor.x,cursor.y+ps,1*ps,1*ps);
+	}
 }

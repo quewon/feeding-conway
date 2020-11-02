@@ -1,6 +1,7 @@
 //init
 var world = document.getElementById("world");
 world.on = false;
+var text = document.getElementById("text");
 
 var bg = document.getElementById("bg");
 var bg_context = bg.getContext("2d");
@@ -83,7 +84,7 @@ function drawBG() {
 	let background = backgrounds[scenes[scenes.current].bg];
 
 	if (background) {
-		if (background.bg) {
+		if ('bg' in background) {
 			let i = parallaxs[background.bg];
 			px_context.drawImage(i.img, 0, 0, i.img.width*ps, i.img.height*ps);
 		}

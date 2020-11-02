@@ -24,11 +24,14 @@
 			top: 50%;
 			transform: translate(-50%, -50%);
 			touch-action: none;
+			cursor: none;
+		}
+		div {
+			cursor: default;
 		}
 		#grid {
 			width: var(--grid-size);
 			height: var(--grid-size);
-			cursor: none;
 			display: none;
 		}
 		#world {
@@ -45,14 +48,13 @@
 		        -ms-user-select: none;
 		            user-select: none;
 		}
-		#main {
-			position: absolute;
-			width: var(--grid-size);
-			height: var(--grid-size);
-			left: 50%;
-			top: 50%;
-			transform: translate(-50%, -50%);
-			cursor: pointer;
+		#text {
+			display: block;
+		    color: #ebf2e7;
+		    background-color: #627179;
+		    position: absolute;
+		    top: calc(16% + var(--world-height));
+		    font-size: 15px;
 		}
 		p {
 			margin: calc(var(--size)/5);
@@ -96,6 +98,8 @@
 	</div>
 
 	<canvas id="grid"></canvas>
+
+	<div id="text" onclick="this.style.display='none'"></div>
 </body>
 
 <script src="scripts/main.js"></script>
