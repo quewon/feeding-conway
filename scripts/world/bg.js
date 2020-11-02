@@ -8,7 +8,6 @@ var world_style = getComputedStyle(document.getElementById('world'));
 bg.width = parseInt(world_style["width"]);
 bg.height = parseInt(world_style["height"]);
 bg_context.imageSmoothingEnabled = false;
-var background;
 
 var ps = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--pixel-size'));
 
@@ -25,13 +24,6 @@ function createBG(name, x, y, width, height) {
 
 function setBG(name) {
 	document.body.style.backgroundColor = getColorOfPixel(1, 1);
-
-	var div = document.createElement("div");
-	let b = backgrounds[name].boundary;
-	div.style.top = b[0]+"px";
-	div.style.left = b[1]+"px";
-	div.style.width = b[2]+"px";
-	div.style.height = b[3]+"px";
 }
 
 function getColorOfPixel(x, y) {
