@@ -8,8 +8,6 @@ fg_context.imageSmoothingEnabled = false;
 
 var foregrounds = {};
 
-createFG('train_car_fg');
-
 function createFG(name) {
 	foregrounds[name] = {};
 	foregrounds[name].img = new Image();

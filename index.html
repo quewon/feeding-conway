@@ -69,15 +69,15 @@
 			color: inherit;
 		}
 		.screenshake {
-			animation: slightScreenShake 3s infinite;
+			animation: slightScreenShake 2s infinite;
 		}
 		@keyframes slightScreenShake {
 			10% {
-				margin-left: 2px;
+				margin-left: 3px;
 			}
 			20% {
-				margin-left: -1px;
-				margin-top: 2px;
+				margin-left: -2px;
+				margin-top: 3px;
 			}
 			30% {
 				margin-left: 0px;
@@ -88,6 +88,7 @@
 </head>
 
 <body>
+	<canvas id="px" class="world"></canvas>
 	<div id="world">
 		<canvas id="bg" class="world"></canvas>
 		<canvas id="chars" class="world"></canvas>
@@ -109,7 +110,7 @@
 <script src="scripts/grid/input.js"></script>
 <script>
 	world.on = true;
-	setScene('train');
+	setScene('train_dark');
 	//genEmptyCells();
 	animate();
 </script>

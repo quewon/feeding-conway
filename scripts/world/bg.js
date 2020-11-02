@@ -13,17 +13,19 @@ var ps = parseInt(getComputedStyle(document.documentElement).getPropertyValue('-
 
 var backgrounds = {};
 
-createBG('train_car', 44, 58, 68, 21);
-
-function createBG(name, x, y, width, height) {
+//functions
+function createBG(name, x, y, width, height, bg) {
 	backgrounds[name] = {};
 	backgrounds[name].img = new Image();
 	backgrounds[name].img.src = "assets/bg/"+name+".png";
 	backgrounds[name].boundary = [x, y, width, height];
+	if (bg) {
+		backgrounds[name].bg = bg
+	}
 }
 
 function setBG(name) {
-	document.body.style.backgroundColor = getColorOfPixel(1, 1);
+	//document.body.style.backgroundColor = getColorOfPixel(1, 1);
 }
 
 function getColorOfPixel(x, y) {
@@ -41,14 +43,51 @@ function getColorOfPixel(x, y) {
 	}
 }
 
+//parallax
+var parallaxs = {};
+function createPX(name, speed) {
+	parallaxs[name] = {};
+	parallaxs[name].img = new Image();
+	parallaxs[name].img.src = "assets/bg/"+name+".png";
+	if (speed != 0) {
+		parallaxs[name].speed = speed;
+		parallaxs[name].counter = 0;
+		parallaxs[name].flip = new Image();
+		parallaxs[name].flip.src = "assets/bg/"+name+"_flipped.png";
+	}
+}
+var px = document.getElementById("px");
+px.width = parseInt(world_style["width"]);
+px.height = parseInt(world_style["height"]);
+var px_context = px.getContext('2d');
+px_context.imageSmoothingEnabled = false;
+
 //loop
 function drawBG() {
+	if (scenes[scenes.current].parallax) {
+		let p = parallaxs[scenes[scenes.current].parallax];
+
+		if (p.counter) {
+			p.counter+=p.speed;
+			if (p.counter>p.img.width*10) {
+				p.counter = 0
+			}
+			px_context.drawImage(p.img, 0-p.counter, 0, p.img.width*ps, p.img.height*ps);
+			px_context.drawImage(p.flip, p.img.width*ps-p.counter, 0, p.img.width*ps, p.img.height*ps);
+			px_context.drawImage(p.img, p.img.width*2*ps-p.counter, 0, p.img.width*ps, p.img.height*ps);
+		} else {
+			px_context.drawImage(p.img, 0, 0, p.img.width*ps, p.img.height*ps);
+		}
+	}
+
 	let background = backgrounds[scenes[scenes.current].bg];
 
 	if (background) {
+		if (background.bg) {
+			let i = parallaxs[background.bg];
+			px_context.drawImage(i.img, 0, 0, i.img.width*ps, i.img.height*ps);
+		}
+
 		bg_context.drawImage(background.img, 0, 0, background.img.width*ps, background.img.height*ps);
-		
-		//debug
-		//bg_context.fillRect(background.boundary[0]*ps, background.boundary[1]*ps, background.boundary[2]*ps, background.boundary[3]*ps)
 	}
 }

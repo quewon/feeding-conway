@@ -7,7 +7,6 @@ char_context.imageSmoothingEnabled = false;
 
 //chars
 var chars = {};
-createChar('player');
 
 function createChar(name) {
 	chars[name] = {};
@@ -20,8 +19,10 @@ function createChar(name) {
 
 function setChar(name, x, y) {
 	let c = chars[name];
-	c.x = x;
-	c.y = y;
+	if (x && y) {
+		c.x = x;
+		c.y = y;
+	}
 }
 
 function moveChar(name, axis, dir) {
@@ -92,8 +93,10 @@ function stopChars() {
 function drawChars() {
 	let cs = scenes[scenes.current].chars;
 
-	for (let i=0; i<cs.length; i++) {
-		let c = chars[cs[i].name];
-		char_context.drawImage(c.img, c.vis[0], c.vis[1], c.vis[2], c.vis[3], c.x*ps, c.y*ps, c.vis[2]*ps, c.vis[3]*ps);
+	if (cs) {
+		for (let i=0; i<cs.length; i++) {
+			let c = chars[cs[i].name];
+			char_context.drawImage(c.img, c.vis[0], c.vis[1], c.vis[2], c.vis[3], c.x*ps, c.y*ps, c.vis[2]*ps, c.vis[3]*ps);
+		}
 	}
 }

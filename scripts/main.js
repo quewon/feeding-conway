@@ -23,7 +23,8 @@ function animate() {
 	if (world.on) {
 		bg_context.clearRect(0,0,bg.width,bg.height);
 		char_context.clearRect(0,0,bg.width,bg.height);
-		//fg_context.clearRect(0,0,bg.width,bg.height);
+		fg_context.clearRect(0,0,bg.width,bg.height);
+		px_context.clearRect(0,0,bg.width,bg.height);
 		drawBG();
 		drawChars();
 		drawFG();
