@@ -5,25 +5,50 @@
 	<title>a</title>
 	<style>
 		:root {
-			--size: 500px;
-			background-color: #303030;
+			--grid-size: 300px;
+			--pixel-size: 5;
+			--world-width: calc(154px * var(--pixel-size));
+			--world-height: calc(135px * var(--pixel-size));
 			font-family: monospace;
 		}
-		canvas {
+		img {
+			display: none;
+		}
+		body {
+			background-color: #4e5c67;
+			overflow: hidden;
+		}
+		canvas, div {
 			position: absolute;
-			width: var(--size);
-			height: var(--size);
 			left: 50%;
 			top: 50%;
 			transform: translate(-50%, -50%);
+			touch-action: none;
+		}
+		#grid {
+			width: var(--grid-size);
+			height: var(--grid-size);
 			cursor: none;
 			display: none;
-			touch-action: none;
+		}
+		#world {
+			image-rendering: -moz-crisp-edges;
+			image-rendering: -webkit-crisp-edges;
+			image-rendering: pixelated;
+			image-rendering: crisp-edges;
+			width: var(--world-width);
+			height: var(--world-height);
+			-webkit-touch-callout: none;
+		    -webkit-user-select: none;
+		     -khtml-user-select: none;
+		       -moz-user-select: none;
+		        -ms-user-select: none;
+		            user-select: none;
 		}
 		#main {
 			position: absolute;
-			width: var(--size);
-			height: var(--size);
+			width: var(--grid-size);
+			height: var(--grid-size);
 			left: 50%;
 			top: 50%;
 			transform: translate(-50%, -50%);
@@ -37,42 +62,54 @@
 			color: inherit;
 			padding: 1em;
 		}
-		#nav {
-			position: absolute;
-			width: var(--size);
-			text-align: center;
-			left: 50%;
-			top: calc(50% + var(--size)/2 + 3em);
-			transform: translate(-50%,-50%);
-		}
 		button {
 			cursor: pointer;
 			font-family: inherit;
 			background-color: transparent;
 			color: inherit;
 		}
+		.screenshake {
+			animation: slightScreenShake 3s infinite;
+		}
+		@keyframes slightScreenShake {
+			10% {
+				margin-left: 2px;
+			}
+			20% {
+				margin-left: -1px;
+				margin-top: 2px;
+			}
+			30% {
+				margin-left: 0px;
+				margin-top: 0px;
+			}
+		}
 	</style>
 </head>
 
 <body>
-	<div id="main"><p>welcome to my petri dish!!!!!!!!</p></div>
-	<canvas></canvas>
-	<div id="nav">
-		<button style="float:left" onclick="cycle(-1)"><</button><span id="cycler">lazy</span><button style="float:right" onclick="cycle(1)">></button>
+	<div id="world">
+		<canvas id="bg" class="world"></canvas>
+		<canvas id="chars" class="world"></canvas>
+		<canvas id="fg" class="world"></canvas>
 	</div>
+
+	<canvas id="grid"></canvas>
 </body>
 
-<script src="canvas.js"></script>
-<script src="init.js"></script>
-<script src="grid.js"></script>
-<script src="behavior.js"></script>
-<script src="input.js"></script>
+<script src="scripts/main.js"></script>
+<script src="scripts/world/bg.js"></script>
+<script src="scripts/world/chars.js"></script>
+<script src="scripts/world/fg.js"></script>
+<script src="scripts/world/input.js"></script>
+
+<script src="scripts/grid/canvas.js"></script>
+<script src="scripts/grid/behavior.js"></script>
+<script src="scripts/grid/input.js"></script>
 <script>
-	window.setInterval(function() {
-		update();
-	}, 50)
-	//genRandomCells();
-	genEmptyCells();
+	world.on = true;
+	setScene('train');
+	//genEmptyCells();
 	animate();
 </script>
 

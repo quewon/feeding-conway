@@ -1,10 +1,20 @@
+//init
+var grid = document.getElementById('grid');
+var grid_context = grid.getContext('2d');
+grid.height = grid.width = parseInt(getComputedStyle(grid)["width"]);
+grid.on = false;
+
+var cellsize = grid.height / 30;
+//number of chunks on axis (there are chunks^2 chunks)
+var chunks = 4;
+
 var cells = [];
 var active_cells = [];
 var cell_length = cell_v = cell_h = 0;
 
 function genEmptyCells() {
-	let vc = Math.ceil(canvas.height / cellsize);
-	let hc = Math.ceil(canvas.width / cellsize);
+	let vc = Math.ceil(grid.height / cellsize);
+	let hc = Math.ceil(grid.width / cellsize);
 
 	let cellnumber = 0;
 
@@ -25,34 +35,20 @@ function genEmptyCells() {
 	getChunkArray();
 }
 
-function genRandomCells() {
-	let vc = Math.ceil(canvas.height / cellsize);
-	let hc = Math.ceil(canvas.width / cellsize);
-
-	let cellnumber = 0;
-
-	for (let i=0; i<vc; i++) {
-		for (let ii=0; ii<hc; ii++) {
-			cells[cellnumber] = {};
-			cells[cellnumber].x = ii;
-			cells[cellnumber].y = i;
-			cells[cellnumber].chunk = setChunk(cellnumber);
-			cells[cellnumber].surrounding = setSurrounding(cellnumber);
-
-			if (Math.floor(Math.random() * 5) == 1) {
-				let b = Object.keys(behavior)[Math.floor(Math.random() * Object.keys(behavior).length)];
-				setCell(cellnumber, b);
-			} else {
-				cells[cellnumber].color = colors.bg;
-				cells[cellnumber].behavior = undefined;
-			}
-			cellnumber++;
-		}
+//animation
+function drawGrid() {
+	let i=0;
+	while (i < cell_length) {
+		grid_context.fillStyle = cells[i].color;
+		grid_context.fillRect(cells[i].x * cellsize, cells[i].y * cellsize, cellsize, cellsize);
+		i++
 	}
 
-	cell_length = cells.length;
-	getChunkArray();
-	update();
+	let hl = cells[getCell(highlight.x, highlight.y)];
+	if (hl != undefined) {
+		grid_context.fillStyle = highlight.color;
+		grid_context.fillRect(hl.x*cellsize, hl.y*cellsize, cellsize, cellsize);
+	}
 }
 
 function getChunkArray() {
@@ -82,13 +78,11 @@ function getChunkArray() {
 	for (i=0; i<cell_length; i++) {
 		cells[i].surrounding = setSurrounding(i);
 	}
-
-	console.log(cells[0].surrounding);
 }
 
 function setChunk(cell) {
-	let cell_v = Math.floor(canvas.height / cellsize)-1;
-	let cell_h = Math.floor(canvas.width / cellsize)-1;
+	let cell_v = Math.floor(grid.height / cellsize)-1;
+	let cell_h = Math.floor(grid.width / cellsize)-1;
 
 	let chunk={x:[],y:[]};
 	cell = cells[cell];
@@ -206,21 +200,6 @@ function setSurrounding(cell) {
 	}
 
 	return s
-}
-
-function drawGrid() {
-	let i=0;
-	while (i < cell_length) {
-		c.fillStyle = cells[i].color;
-		c.fillRect(cells[i].x * cellsize, cells[i].y * cellsize, cellsize, cellsize);
-		i++
-	}
-
-	let hl = cells[getCell(highlight.x, highlight.y)];
-	if (hl != undefined) {
-		c.fillStyle = highlight.color;
-		c.fillRect(hl.x*cellsize, hl.y*cellsize, cellsize, cellsize);
-	}
 }
 
 function getCell(x, y) {

@@ -1,4 +1,5 @@
 const behavior = {};
+var behavior_setting = 'lazy';
 
 function subtractArray(a, b) {
 	let i=0, len=a.length;
@@ -10,22 +11,6 @@ function subtractArray(a, b) {
 		i++
 	}
 	return newarray
-}
-
-var behavior_index = 0;
-var behavior_setting = 'lazy';
-function cycle(dir) {
-	let bs = Object.keys(behavior);
-
-	behavior_index += dir;
-	if (behavior_index<0) {
-		behavior_index = bs.length-1
-	} else if (behavior_index > bs.length-1) {
-		behavior_index = 0
-	}
-
-	behavior_setting = Object.keys(behavior)[behavior_index];
-	document.getElementById("cycler").textContent = behavior_setting;
 }
 
 behavior.lazy = {};
@@ -142,29 +127,6 @@ behavior.gooey.func = function(cell) {
 };
 behavior.gooey.cells = [];
 
-var unused_warp_effect = function(cell) {
-	let cs = surrounding(cell);
-
-	let neighbors = surroundingActive(cell, cs).length;
-	if (neighbors==5) {
-		clear_cells.push(cell)
-	} else {
-		behavior.gooey.cells.push(cell)
-	}
-
-	//a dead cell with 3 neighbors becomes a live cell
-	let dead_cells = cs.filter( (el) => !surroundingActive(cell, cs).includes(el));
-	for (let i=0; i<dead_cells.length; i++) {
-		let dc = dead_cells[i];
-		let neighbors = surroundingActive(dc).length;
-		if (neighbors > 2) {
-			behavior.gooey.cells.push(dc)
-		} else {
-			clear_cells.push(dc)
-		}
-	}
-};
-
 var clear_cells = [];
 
 function surrounding(cell) {
@@ -230,37 +192,4 @@ function setCell(cell, b) {
 		behavior[b].func(cell)
 	};
 	cells[cell].color = behavior[b].color;
-}
-
-var updating = true;
-function update() {
-	if (updating) {
-		//update cells
-		let i=0, len=clear_cells.length;
-		while (i<len) {
-			clearCell(clear_cells[i]);
-			i++
-		}
-		clear_cells = [];
-
-		let bs = Object.keys(behavior);
-		i=0, len = bs.length;
-		while (i<len) {
-			let b = behavior[bs[i]];
-			let ii=0, lenn=b.cells.length;
-			while (ii<lenn) {
-				setCell(b.cells[ii], bs[i])
-				ii++
-			}
-			b.cells = [];
-			i++
-		}
-
-		//active cells act
-		i=0, len=active_cells.length;
-		while (i<len) {
-			cells[active_cells[i]].behavior();
-			i++
-		}
-	}
 }
