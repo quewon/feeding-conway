@@ -52,7 +52,7 @@ function choose(dir) {
 
 world.update = function() {
     let cs = scenes[scenes.current].chars;
-    if (cs[cs.length-1].name=='player' && cs.length > 1) {
+    if (cs && cs[cs.length-1].name=='player' && cs.length > 1) {
         let p = chars.player;
 
         let x = p.x+1;

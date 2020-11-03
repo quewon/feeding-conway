@@ -65,6 +65,8 @@ scenes.train_light = {
 		world.classList.add('screenshake');
 	}
 };
+scenes.train_station = {
+};
 
 function setScene(name) {
 	console.log("scene: "+name);

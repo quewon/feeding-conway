@@ -31,28 +31,30 @@ function setChar(name, x, y, dir) {
 }
 
 function moveChar(name, axis, dir) {
-	let c = chars[name];
-	let b = backgrounds[scenes[scenes.current].bg].boundary;
+	if ('bg' in scenes[scenes.current]) {
+		let c = chars[name];
+		let b = backgrounds[scenes[scenes.current].bg].boundary;
 
-	if (axis=='x') {
-		let w = c.vis[2];
-		let a = c.x+dir;
-		if (a < b[0]-1 || a+w > b[0]+b[2]+1) { return }
-		c.x += dir;
-		if (dir < 0) {
-			changeFace(name, 'left')
-		} else {
-			changeFace(name, 'right')
+		if (axis=='x') {
+			let w = c.vis[2];
+			let a = c.x+dir;
+			if (a < b[0]-1 || a+w > b[0]+b[2]+1) { return }
+			c.x += dir;
+			if (dir < 0) {
+				changeFace(name, 'left')
+			} else {
+				changeFace(name, 'right')
+			}
 		}
-	}
-	if (axis=='y') {
-		let h = c.vis[3]/2;
-		let a = c.y+dir;
-		if (a < b[1]-1 || a+h > b[1]+b[3]+1) { return }
-		c.y += dir;
-	}
+		if (axis=='y') {
+			let h = c.vis[3]/2;
+			let a = c.y+dir;
+			if (a < b[1]-1 || a+h > b[1]+b[3]+1) { return }
+			c.y += dir;
+		}
 
-	animateChar(name)
+		animateChar(name)
+	}
 }
 
 var outlined;

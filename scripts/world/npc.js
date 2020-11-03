@@ -14,14 +14,20 @@ CHOICE.bob = [
 		text: "yea",
 		effect: function() {
 			printDialog(DIALOG.bob2);
-			DIALOG.bob[0]++
+			DIALOG.bob[0]++;
+			setTimeout(function() {
+				setScene('train_station')
+			},5000)
 		}
 	},
 	{
 		text: "nah",
 		effect: function() {
 			printDialog(DIALOG.bob3);
-			DIALOG.bob[0]++
+			DIALOG.bob[0]++;
+			setTimeout(function() {
+				setScene('train_station')
+			},5000)
 		}
 	}
 ];
@@ -38,6 +44,7 @@ DIALOG.bob = [
 DIALOG.bob2 = "probably right.";
 DIALOG.bob3 = "you and me both. at least the scenery's good.";
 
+//functions
 function printDialog(t) {
 	resetDBox();
     text.style.display = "block";
