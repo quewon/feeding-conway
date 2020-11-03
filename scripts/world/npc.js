@@ -3,50 +3,73 @@ INTERACT.player = function() {
 	printDialog(DIALOG.player)
 };
 INTERACT.bob = function() {
-	printMenu(DIALOG.bob, CHOICE.bob)
+	printDialog(DIALOG.bob)
 };
 
 var DIALOG = {};
 var CHOICE = {};
 DIALOG.player = "it's you.";
-DIALOG.bob = `WOW HI`;
 CHOICE.bob = [
 	{
 		text: "yea",
 		effect: function() {
-			printDialog(DIALOG.bob2)
+			printDialog(DIALOG.bob2);
+			DIALOG.bob[0]++
 		}
 	},
 	{
 		text: "nah",
 		effect: function() {
-			printDialog(DIALOG.bob3)
+			printDialog(DIALOG.bob3);
+			DIALOG.bob[0]++
 		}
 	}
 ];
-DIALOG.bob2 = "yeah?";
-DIALOG.bob3 = "nah?";
+DIALOG.bob = [
+	1,
+	{
+		text: "think this train ride's ever gonna end?",
+		choice: CHOICE.bob
+	},
+	{
+		text: "say, think that town'll remember ya?"
+	}
+];
+DIALOG.bob2 = "probably right.";
+DIALOG.bob3 = "you and me both. at least the scenery's good.";
 
 function printDialog(t) {
 	resetDBox();
     text.style.display = "block";
-    text.innerHTML = t;
-}
 
-function printMenu(t, c) {
-	printDialog(t);
-
-	for (let i=0; i<c.length; i++) {
-		printChoice(c[i])
+	if (typeof t === "string") {
+		text.innerHTML = t;
+		return
 	}
 
+    if (t[0] > t.length-1) {
+    	te = t[t.length-1];
+    } else {
+    	te = t[t[0]];
+    }
+
+    text.innerHTML = te.text;
+    if ('choice' in te) {
+    	//only move on if choie has been made
+    	printMenu(te.choice);
+    } else {
+    	t[0]++;
+    }
+}
+
+function printMenu(c) {
 	//i could change this so it doesnt build a span each time this runs and instead puts text into an existing choice box but im gonna move on
-	function printChoice(t) {
+	for (let i=0; i<c.length; i++) {
 		let div = document.createElement("span"); //whoa! actually not a div!
 		div.className = "choice";
-		div.innerHTML = t.text;
-		div.onclick = t.effect;
-		text.parentElement.appendChild(div);
+		div.innerHTML = c[i].text;
+		div.onclick = c[i].effect;
+		dialog_box.appendChild(div);
 	}
 }
 

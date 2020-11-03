@@ -50,15 +50,15 @@ scenes.train_light = {
 	fg: 'train_car_fg',
 	chars: [
 			{
-				name: 'player',
-				x: 66,
-				y: 66
-			},
-			{
 				name: 'bob',
 				x: 48,
 				y: 66,
-				dir: 'left'
+				//dir: 'left'
+			},
+			{
+				name: 'player',
+				x: 66,
+				y: 66
 			}
 	],
 	extras: function() {
