@@ -3,11 +3,89 @@ KeyboardController({
 	37: function() { moveChar('player', 'x', -1) },
 	68: function() { moveChar('player', 'x', 1) },
 	39: function() { moveChar('player', 'x', 1) },
+    40: function() { choose(1) },
+    38: function() { choose(-1) }
 }, 100);
-
 //i could implement my own solution here
 //but i'd rather move on
+
+function interactChar(name) {
+    if (!name) { resetDBox(); return }
+    chars[name].interaction();
+}
+
+function worldKeypress(k) {
+    event.preventDefault();
+
+    if (k===32) {
+        if (cursor.index > -1) {
+            choose(0)
+        } else {
+            interactChar(outlined);
+        }
+    }
+    if (k===115) {
+        choose(1)
+    }
+    if (k===119) {
+        choose(-1)
+    }
+}
+
+function choose(dir) {
+    let cs = document.getElementsByClassName("choice");
+
+    if (cs.length > 0) {
+        if (dir==0) {
+            cs[cursor.index].click();
+            return
+        }
+
+        cursor.index+=dir;
+
+        if (cursor.index<0) { cursor.index = cs.length-1 }
+        else if (cursor.index>cs.length-1) { cursor.index = 0 }
+
+        cs[cursor.index].focus();
+    }
+}
+
 world.update = function() {
+    let cs = scenes[scenes.current].chars;
+    if (cs[cs.length-1].name=='player' && cs.length > 1) {
+        let p = chars.player;
+
+        let x = p.x+1;
+        let y = p.y+1;
+        let width = (p.vis[2]-1)*2;
+        let height = p.vis[3]-2;
+
+        if(chars.player.facing_right) {
+        } else {
+            x -= p.vis[2];
+        }
+
+        //debug
+        //bg_context.fillRect(x*ps,y*ps,width*ps,height*ps);
+
+        for (let i=0; i<cs.length-1; i++) {
+            let c = chars[cs[i].name];
+            let cx = c.x+1;
+            let cy = c.y+1;
+            let cwidth = c.vis[2]-2;
+            let cheight = c.vis[3]-2;
+            //bg_context.fillRect(cx,cy,cwidth,cheight);
+            if (
+                (cx+1>=x && cx<=x+width && cy+1>=y && cy<=y+height) ||
+                (cx+cwidth>=x && cx+cwidth<=x+width && cy+cheight>=y && cy+cheight<=y+height)
+                )
+            {
+                outlineChar(cs[i].name);
+                break
+            }
+            outlined = undefined
+        }
+    }
 	if (cursor.x && cursor.y) {
         let c = getChar(cursor.x, cursor.y);
 
@@ -15,7 +93,7 @@ world.update = function() {
             cursor.char = c;
             outlineChar(c)
         } else {
-            cursor.char = undefined
+            cursor.char = undefined;
         }
     }
 };
@@ -31,19 +109,21 @@ function getChar(x, y) {
                 return cs[i].name;
             }
         }
-        cursor.char = undefined
     }
+    return undefined
 }
 
 world.onclick = function() {
     if (cursor.char) {
-        chars[cursor.char].interaction();
+        interactChar(cursor.char)
+    } else if (outlined) {
+        interactChar(outlined)
     } else {
         resetDBox();
     }
 };
 
-var cursor = {x:undefined,y:undefined};
+var cursor = {x:undefined,y:undefined,index:-1};
 world.onmousemove = function(e) {
     let rect = bg.getBoundingClientRect();
     let x = e.clientX;
@@ -56,7 +136,7 @@ world.onmousemove = function(e) {
     cursor.y = y-1;
 };
 world.onmouseout = function() {
-    cursor = {x:undefined,y:undefined};
+    cursor = {x:undefined,y:undefined,index:-1};
 };
 
 //https://stackoverflow.com/a/3691661/9375514

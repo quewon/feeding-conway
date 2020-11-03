@@ -16,6 +16,7 @@ function createChar(name) {
 	chars[name].vis = [0, 0, 7, 14];
 	chars[name].img.src = "assets/sprites/"+name+".png";
 	chars[name].interaction = INTERACT[name];
+	chars[name].facing_right = false;
 }
 
 function setChar(name, x, y, dir) {
@@ -54,8 +55,11 @@ function moveChar(name, axis, dir) {
 	animateChar(name)
 }
 
+var outlined;
 //https://stackoverflow.com/a/28416298/9375514
 function outlineChar(name) {
+	outlined = name;
+
 	var dArr = [-1,-1, 0,-1, 1,-1, -1,0, 1,0, -1,1, 0,1, 1,1], // offset array
 	    s = ps-1,  // thickness scale
 	    i = 0,  // iterator
@@ -127,9 +131,11 @@ function changeFace(name, face) {
 	let c = chars[name];
 
 	if (face=='right') {
-		c.vis[1] = 0
+		c.vis[1] = 0;
+		c.facing_right = true
 	} else {
-		c.vis[1] = c.vis[3]
+		c.vis[1] = c.vis[3];
+		c.facing_right = false
 	}
 }
 

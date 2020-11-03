@@ -69,6 +69,7 @@ function printMenu(c) {
 		div.className = "choice";
 		div.innerHTML = c[i].text;
 		div.onclick = c[i].effect;
+		div.tabIndex = "1";
 		dialog_box.appendChild(div);
 	}
 }
@@ -80,4 +81,5 @@ function resetDBox() {
 	}
 
 	text.style.display = "none";
+	cursor.index = -1;
 }
