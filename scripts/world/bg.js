@@ -15,20 +15,19 @@ var ps = parseInt(getComputedStyle(document.documentElement).getPropertyValue('-
 var backgrounds = {};
 
 //functions
-function createBG(name, x, y, width, height, bg) {
+function createBG(name, x, y, width, height, color) {
 	backgrounds[name] = {};
 	backgrounds[name].img = new Image();
 	backgrounds[name].img.src = "assets/bg/"+name+".png";
 	backgrounds[name].boundary = [x, y, width, height];
-	if (bg) {
-		backgrounds[name].bg = bg
-	}
+	backgrounds[name].color = color || "#ebf2e7";
 }
 
 function setBG(name) {
-	//document.body.style.backgroundColor = getColorOfPixel(1, 1);
+	document.body.style.backgroundColor = backgrounds[name].color;
 }
 
+//i dont need this function anymore but i wanna keep it around
 function getColorOfPixel(x, y) {
 	let p = bg_context.getImageData(x, y, 1, 1).data;
 	let color = "#" + ("000000" + rgbToHex(p[0], p[1], p[2])).slice(-6);
@@ -53,8 +52,6 @@ function createPX(name, speed) {
 	if (speed != 0) {
 		parallaxs[name].speed = speed;
 		parallaxs[name].counter = 0;
-		parallaxs[name].flip = new Image();
-		parallaxs[name].flip.src = "assets/bg/"+name+"_flipped.png";
 	}
 }
 var px = document.getElementById("px");
@@ -70,25 +67,24 @@ function drawBG() {
 
 		if ('counter' in p) {
 			p.counter+=p.speed;
-			if (p.counter>p.img.width*10) {
+			if (p.counter>p.img.width*2/3*ps) {
 				p.counter = 0
 			}
 			px_context.drawImage(p.img, 0-p.counter, 0, p.img.width*ps, p.img.height*ps);
-			px_context.drawImage(p.flip, p.img.width*ps-p.counter, 0, p.img.width*ps, p.img.height*ps);
-			px_context.drawImage(p.img, p.img.width*2*ps-p.counter, 0, p.img.width*ps, p.img.height*ps);
 		} else {
 			px_context.drawImage(p.img, 0, 0, p.img.width*ps, p.img.height*ps);
 		}
 	}
 
+	let b = parallaxs[scenes[scenes.current].bgsbg];
+
+	if (b) {
+		px_context.drawImage(b.img, 0, 0, b.img.width*ps, b.img.height*ps);
+	}
+
 	let background = backgrounds[scenes[scenes.current].bg];
 
 	if (background) {
-		if ('bg' in background) {
-			let i = parallaxs[background.bg];
-			px_context.drawImage(i.img, 0, 0, i.img.width*ps, i.img.height*ps);
-		}
-
 		bg_context.drawImage(background.img, 0, 0, background.img.width*ps, background.img.height*ps);
 	}
 }

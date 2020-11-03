@@ -17,7 +17,7 @@ function animate() {
 		grid_context.clearRect(0, 0, grid.width, grid.height);
 
 		drawGrid();
-		updateGrid();
+		grid.update();
 	}
 
 	if (world.on) {

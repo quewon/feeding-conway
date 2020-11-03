@@ -25,6 +25,12 @@
 			transform: translate(-50%, -50%);
 			touch-action: none;
 			cursor: none;
+			-webkit-touch-callout: none;
+		    -webkit-user-select: none;
+		     -khtml-user-select: none;
+		       -moz-user-select: none;
+		        -ms-user-select: none;
+		            user-select: none;
 		}
 		div {
 			cursor: default;
@@ -41,28 +47,42 @@
 			image-rendering: crisp-edges;
 			width: var(--world-width);
 			height: var(--world-height);
-			-webkit-touch-callout: none;
-		    -webkit-user-select: none;
-		     -khtml-user-select: none;
-		       -moz-user-select: none;
-		        -ms-user-select: none;
-		            user-select: none;
+		}
+		#dialog_box {
+			position: absolute;
+		    top: calc(50% - var(--world-width) * 0.5);
+		    transform: translate(-50%, 46px);
+		    width: var(--world-width);
+			display: block;
+		    font-size: 15px;
+		    text-align: center;
+		    color: #ebf2e7;
+		    padding: 10px;
 		}
 		#text {
-			display: block;
-		    color: #ebf2e7;
+			width: inherit;
 		    background-color: #627179;
-		    position: absolute;
-		    top: calc(16% + var(--world-height));
-		    font-size: 15px;
+		    margin-bottom: 5px;
+		}
+		.choice {
+			margin: 0;
+			margin-bottom: 5px;
+			width: inherit;
+			cursor: pointer;
+			display: block;
+			border: 1px solid #627179;
+			color: #627179;
+			background-color: #ebf2e7;
+			-webkit-box-sizing: border-box;
+		    -moz-box-sizing: border-box;
+		    box-sizing: border-box;
+		}
+		.choice:hover {
+			background-color: #627179;
+			color: #ebf2e7;
 		}
 		p {
 			margin: calc(var(--size)/5);
-		}
-		span {
-			font-family: inherit;
-			color: inherit;
-			padding: 1em;
 		}
 		button {
 			cursor: pointer;
@@ -99,13 +119,16 @@
 
 	<canvas id="grid"></canvas>
 
-	<div id="text" onclick="this.style.display='none'"></div>
+	<div id="dialog_box">
+		<span id="text" onclick="this.style.display='none'"></span>
+	</div>
 </body>
 
 <script src="scripts/main.js"></script>
 <script src="scripts/world/bg.js"></script>
 <script src="scripts/world/chars.js"></script>
 <script src="scripts/world/fg.js"></script>
+<script src="scripts/world/npc.js"></script>
 <script src="scripts/world/scenes.js"></script>
 <script src="scripts/world/input.js"></script>
 
@@ -113,10 +136,14 @@
 <script src="scripts/grid/behavior.js"></script>
 <script src="scripts/grid/input.js"></script>
 <script>
-	world.on = true;
-	setScene('train_dark');
-	//genEmptyCells();
-	animate();
+	window.onload = function() {
+		world.on = true;
+		//grid.on = true;
+		//grid.style.display = 'block';
+		setScene('train_light');
+		//genEmptyCells();
+		animate();
+	}
 </script>
 
 </html>

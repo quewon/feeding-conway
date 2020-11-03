@@ -9,34 +9,37 @@ KeyboardController({
 //but i'd rather move on
 world.update = function() {
 	if (cursor.x && cursor.y) {
-        let cs = scenes[scenes.current].chars;
+        let c = getChar(cursor.x, cursor.y);
 
-        if (cs) {
-            for (let i=0; i<cs.length; i++) {
-                let c = chars[cs[i].name];
-                if (cursor.x+1 >= c.x*ps && cursor.x+1 <= (c.x+c.vis[2])*ps &&
-                    cursor.y+1 >= c.y*ps && cursor.y+1 <= (c.y+c.vis[3])*ps) {
-                    outlineChar(cs[i].name);
-                    cursor.char = chars[cs[i].name];
-                    return
-                }
-            }
-            cursor.char = undefined;
+        if (c) {
+            cursor.char = c;
+            outlineChar(c)
+        } else {
+            cursor.char = undefined
         }
     }
 };
 
+function getChar(x, y) {
+    let cs = scenes[scenes.current].chars;
+
+    if (cs) {
+        for (let i=0; i<cs.length; i++) {
+            let c = chars[cs[i].name];
+            if (x+1 >= c.x*ps && x+1 <= (c.x+c.vis[2])*ps &&
+                y+1 >= c.y*ps && y+1 <= (c.y+c.vis[3])*ps) {
+                return cs[i].name;
+            }
+        }
+        cursor.char = undefined
+    }
+}
+
 world.onclick = function() {
     if (cursor.char) {
-        if (text.style.display == "block") {
-            text.style.display = "none";
-        }
-        else {
-            text.style.display = "block";
-            text.textContent = cursor.char.text;
-        }
+        chars[cursor.char].interaction();
     } else {
-        text.style.display = "none";
+        resetDBox();
     }
 };
 
@@ -61,32 +64,38 @@ function KeyboardController(keys, repeat) {
     var timers = {};
 
     document.onkeydown= function(e) {
-        var key = e.keyCode || e.which;
-        if (!(key in keys))
-            return true;
-        if (!(key in timers)) {
-            timers[key] = null;
-            keys[key]();
-            timers[key] = setInterval(keys[key], repeat);
+        if (world.on) {
+            var key = e.keyCode || e.which;
+            if (!(key in keys))
+                return true;
+            if (!(key in timers)) {
+                timers[key] = null;
+                keys[key]();
+                timers[key] = setInterval(keys[key], repeat);
+            }
+            return false;
         }
-        return false;
     };
 
     document.onkeyup= function(e) {
-        var key = e.keyCode || e.which;
-        if (key in timers) {
-            if (timers[key]!==null)
-                clearInterval(timers[key]);
-            delete timers[key];
+        if (world.on) {
+            var key = e.keyCode || e.which;
+            if (key in timers) {
+                if (timers[key]!==null)
+                    clearInterval(timers[key]);
+                delete timers[key];
+            }
+            stopChars()
         }
-        stopChars()
     };
 
     window.onblur= function() {
-        for (key in timers)
-            if (timers[key]!==null)
-                clearInterval(timers[key]);
-        timers = {};
-        stopChars()
+        if (world.on) {
+            for (key in timers)
+                if (timers[key]!==null)
+                    clearInterval(timers[key]);
+            timers = {};
+            stopChars()
+        }
     };
 };
