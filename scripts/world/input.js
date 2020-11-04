@@ -4,13 +4,14 @@ KeyboardController({
 	68: function() { moveChar('player', 'x', 1) },
 	39: function() { moveChar('player', 'x', 1) },
     40: function() { choose(1) },
-    38: function() { choose(-1) }
+    38: function() { choose(-1) },
+    27: function() { DIALOG.reset() }
 }, 100);
 //i could implement my own solution here
 //but i'd rather move on
 
 function interactChar(name) {
-    if (!name) { resetDBox(); return }
+    if (!name) { DIALOG.reset(); return }
     chars[name].interaction();
 }
 
@@ -50,6 +51,17 @@ function choose(dir) {
     }
 }
 
+function isColliding(x1, y1, width1, height1, x2, y2, width2, height2) {
+    if (
+        (x2+1>x1 && x2<x1+width1 && y2+1>=y1 && y2<=y1+height1) ||
+        (x2+width2>x1 && x2+width2<x1+width1 && y2+height2>=y1 && y2+height2<=y1+height1)
+        )
+    {
+        return true
+    }
+    return false
+}
+
 world.update = function() {
     let cs = scenes[scenes.current].chars;
     if (cs && cs[cs.length-1].name=='player' && cs.length > 1) {
@@ -74,16 +86,18 @@ world.update = function() {
             let cy = c.y+1;
             let cwidth = c.vis[2]-2;
             let cheight = c.vis[3]-2;
-            //bg_context.fillRect(cx,cy,cwidth,cheight);
-            if (
-                (cx+1>=x && cx<=x+width && cy+1>=y && cy<=y+height) ||
-                (cx+cwidth>=x && cx+cwidth<=x+width && cy+cheight>=y && cy+cheight<=y+height)
-                )
-            {
-                outlineChar(cs[i].name);
+
+            //bg_context.fillRect(cx*ps,cy*ps,cwidth*ps,cheight*ps);
+
+            if (isColliding(x,y,width,height,cx,cy,cwidth,cheight)) {
+                outlined = cs[i].name;
                 break
             }
             outlined = undefined
+        }
+
+        if (outlined) {
+            outlineChar(outlined)
         }
     }
 	if (cursor.x && cursor.y) {
@@ -119,7 +133,7 @@ world.onclick = function() {
     } else if (outlined) {
         interactChar(outlined)
     } else {
-        resetDBox();
+        DIALOG.reset();
     }
 };
 

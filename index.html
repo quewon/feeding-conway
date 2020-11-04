@@ -2,6 +2,7 @@
 <html>
 
 <head>
+	<meta charset="UTF-8">
 	<title>a</title>
 	<style>
 		:root {
@@ -54,7 +55,7 @@
 		    transform: translate(-50%, 46px);
 		    width: var(--world-width);
 			display: block;
-		    font-size: 15px;
+		    font-size: 25px;
 		    text-align: center;
 		    color: #ebf2e7;
 		    padding: 10px;
@@ -140,8 +141,9 @@
 		world.on = true;
 		//grid.on = true;
 		//grid.style.display = 'block';
-		setScene('train_light');
 		//genEmptyCells();
+		setScene('train_light');
+		//setScene('train_stairs');
 		animate();
 	}
 </script>

@@ -1,19 +1,27 @@
 var INTERACT = {};
 INTERACT.player = function() {
-	printDialog(DIALOG.player)
+	DIALOG.print(DIALOG.player)
 };
 INTERACT.bob = function() {
-	printDialog(DIALOG.bob)
+	DIALOG.print(DIALOG.bob)
+};
+INTERACT.elevator = function() {
+	playCharAnimation('elevator', function() {
+		setScene('pre_elevator');
+	});
+};
+INTERACT.station_sign = function() {
+	DIALOG.print(DIALOG.station_sign)
 };
 
 var DIALOG = {};
 var CHOICE = {};
-DIALOG.player = "it's you.";
+DIALOG.player = "👩‍🔬💭💡";
 CHOICE.bob = [
 	{
-		text: "yea",
+		text: "👋👋",
 		effect: function() {
-			printDialog(DIALOG.bob2);
+			DIALOG.print(DIALOG.bob2);
 			DIALOG.bob[0]++;
 			setTimeout(function() {
 				setScene('train_station')
@@ -21,9 +29,9 @@ CHOICE.bob = [
 		}
 	},
 	{
-		text: "nah",
+		text: "🚆=🥱",
 		effect: function() {
-			printDialog(DIALOG.bob3);
+			DIALOG.print(DIALOG.bob3);
 			DIALOG.bob[0]++;
 			setTimeout(function() {
 				setScene('train_station')
@@ -34,19 +42,20 @@ CHOICE.bob = [
 DIALOG.bob = [
 	1,
 	{
-		text: "think this train ride's ever gonna end?",
+		text: "❔",
 		choice: CHOICE.bob
 	},
 	{
-		text: "say, think that town'll remember ya?"
+		text: "💤"
 	}
 ];
-DIALOG.bob2 = "probably right.";
-DIALOG.bob3 = "you and me both. at least the scenery's good.";
+DIALOG.bob2 = "👋";
+DIALOG.bob3 = "🚆=😴✅";
+DIALOG.station_sign = "⬆️🚪🚶";
 
 //functions
-function printDialog(t) {
-	resetDBox();
+DIALOG.print = function(t) {
+	DIALOG.reset();
     text.style.display = "block";
 
 	if (typeof t === "string") {
@@ -63,13 +72,13 @@ function printDialog(t) {
     text.innerHTML = te.text;
     if ('choice' in te) {
     	//only move on if choie has been made
-    	printMenu(te.choice);
+    	DIALOG.printMenu(te.choice);
     } else {
     	t[0]++;
     }
 }
 
-function printMenu(c) {
+DIALOG.printMenu = function(c) {
 	//i could change this so it doesnt build a span each time this runs and instead puts text into an existing choice box but im gonna move on
 	for (let i=0; i<c.length; i++) {
 		let div = document.createElement("span"); //whoa! actually not a div!
@@ -82,7 +91,7 @@ function printMenu(c) {
 }
 
 var dialog_box = document.getElementById("dialog_box");
-function resetDBox() {
+DIALOG.reset = function() {
 	while (dialog_box.lastChild.className=="choice") {
 		dialog_box.removeChild(dialog_box.lastChild);
 	}
