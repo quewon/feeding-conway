@@ -171,9 +171,9 @@ scenes.station_stairs_right = {
 		[155,function(){setScene('train_station')},[]]
 	]
 };
+createBG('station_stairs_left', 0, 0, 154, 46, "dark", 'down');
 scenes.station_stairs_pre_elevator = {
-	bg: 'station_stairs',
-	fg: 'station_stairs_fg',
+	bg: 'station_stairs_left',
 	chars: [
 		{
 			name: 'station_sign',
@@ -200,7 +200,7 @@ scenes.station_stairs_pre_elevator = {
 	]
 };
 scenes.station_stairs_left = {
-	bg: 'station_stairs',
+	bg: 'station_stairs_left',
 	fg: 'station_stairs_fg',
 	chars: [
 		{
@@ -333,6 +333,7 @@ scenes.station_ext_left = {
 		[17,function(){setScene('elevator_up3')},[]],
 	]
 };
+createBG('station_ext_pre_elevator', 0, 0, 154, 46, "light", 'up');
 scenes.station_ext_pre_elevator = {
 	bg: 'station_ext_pre_elevator',
 	chars: [
@@ -344,7 +345,6 @@ scenes.station_ext_pre_elevator = {
 		[17,function(){setScene('elevator_up3')},[]],
 	]
 };
-createBG('station_ext_pre_elevator', 0, 0, 154, 46, "light", 'up');
 scenes.station_ext_right = {
 	bg: 'station_ext',
 	chars: [
