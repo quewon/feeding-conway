@@ -80,7 +80,7 @@ function moveChar(name, axis, dir, fromtrigger) {
 	}
 
 	if ('triggers' in scenes[scenes.current] && !fromtrigger) {
-		let arr = scenes[scenes.current].triggers;
+		let arr = scenes[scenaes.current].triggers;
 
 		for (let i=0; i<arr.length; i++) {
 			let t = arr[i];
@@ -90,12 +90,16 @@ function moveChar(name, axis, dir, fromtrigger) {
 				t[2].splice(t[2].indexOf(name),1);
 			} else {
 				let bw = backgrounds[scenes[scenes.current].bg].boundary[2];
-				if(t[0]<0 || t[0]>bw) {
-					if ((blocked && axis=='x' && dir==-1) ||
-						(blocked && axis=='x' && dir==1)) {
+				if(t[0]<0) {
+					if(blocked && axis=='x' && dir==-1) {
 						t[1](name);
 					}
+				} else if (t[0]>bw) {
+					if(blocked && axis=='x' && dir==1) {
+						t[1](name)
+					}
 				}
+
 				if (c.x==t[0]-1) {
 					t[1](name);
 			    	t[2].push(name);
