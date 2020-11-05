@@ -111,7 +111,7 @@ scenes.train_station_with_bob = {
 		}
 	],
 	triggers: [
-		[-1,function(){setScene('station_stairs')},[]]
+		[-1,function(){setScene('station_stairs_right')},[]]
 	]
 };
 scenes.train_station = {
@@ -185,7 +185,7 @@ scenes.station_stairs_pre_elevator = {
 		}
 	],
 	triggers: [
-		[15,function(){setScene('elevator_down1')},[]],
+		[18,function(){setScene('elevator_down1')},[]],
 		[80,TRIGGERS.stair_left,[]],
 		[75,TRIGGERS.stair_left,[]],
 		[70,TRIGGERS.stair_left,[]],
@@ -216,7 +216,7 @@ scenes.station_stairs_left = {
 		}
 	],
 	triggers: [
-		[15,function(){setScene('elevator_down1')},[]],
+		[18,function(){setScene('elevator_down1')},[]],
 		[80,TRIGGERS.stair_left,[]],
 		[75,TRIGGERS.stair_left,[]],
 		[70,TRIGGERS.stair_left,[]],
@@ -320,8 +320,9 @@ scenes.elevator_up3 = {
 };
 
 createBG('station_ext', 0, 0, 154, 46, "light", 'up');
+createBG('station_ext_left', 0, 0, 154, 46, "light", 'up');
 scenes.station_ext_left = {
-	bg: 'station_ext_pre_elevator',
+	bg: 'station_ext_left',
 	chars: [
 		{
 			name: 'player',
@@ -330,19 +331,19 @@ scenes.station_ext_left = {
 		},
 	],
 	triggers: [
-		[17,function(){setScene('elevator_up3')},[]],
+		[30,TRIGGERS.stair_left,[]],
+		[18,function(){setScene('elevator_up3')},[]],
 	]
 };
-createBG('station_ext_pre_elevator', 0, 0, 154, 46, "light", 'up');
 scenes.station_ext_pre_elevator = {
-	bg: 'station_ext_pre_elevator',
+	bg: 'station_ext_left',
 	chars: [
 		{
 			name: 'player'
 		},
 	],
 	triggers: [
-		[17,function(){setScene('elevator_up3')},[]],
+		[18,function(){setScene('elevator_up3')},[]],
 	]
 };
 scenes.station_ext_right = {
@@ -350,7 +351,7 @@ scenes.station_ext_right = {
 	chars: [
 		{
 			name: 'elevator',
-			x:14,
+			x:15,
 			y:66,
 		},
 		{

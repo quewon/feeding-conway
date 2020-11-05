@@ -48,6 +48,12 @@ function moveChar(name, axis, dir, fromtrigger) {
 	let c = chars[name];
 	let blocked;
 
+	if (fromtrigger) {
+		if (axis=='x') { c.x += dir }
+		else if (axis=='y') { c.y += dir }
+		return
+	}
+
 	if ('bg' in scenes[scenes.current]) {
 		let b = backgrounds[scenes[scenes.current].bg].boundary;
 
@@ -87,9 +93,17 @@ function moveChar(name, axis, dir, fromtrigger) {
 			let t = arr[i];
 
 			if (t[2].includes(name)) {
-				if ((c.facing_right && c.x==t[0]) || (!c.facing_right && c.x==t[0]+1)) { t[1](name, true) }
+				if ((c.facing_right && c.x==t[0]) || (!c.facing_right && c.x==t[0]+1)) {
+					t[1](name, true)
+				}
 				t[2].splice(t[2].indexOf(name),1);
 			} else {
+				if (c.x==t[0]-1) {
+					t[1](name);
+			    	t[2].push(name);
+			    	return
+				}
+
 				let bw = backgrounds[scenes[scenes.current].bg].boundary[2];
 				if(t[0]<0) {
 					if(blocked && axis=='x' && dir==-1) {
@@ -99,11 +113,6 @@ function moveChar(name, axis, dir, fromtrigger) {
 					if(blocked && axis=='x' && dir==1) {
 						t[1](name)
 					}
-				}
-
-				if (c.x==t[0]-1) {
-					t[1](name);
-			    	t[2].push(name);
 				}
 			}
 		}
