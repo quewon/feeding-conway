@@ -1,9 +1,20 @@
 //DIALOG AND INTERACTIONS
+var controls = document.getElementById("controls");
 INTERACT.player = function() {
-	DIALOG.print(DIALOG.player)
+	DIALOG.print(DIALOG.player);
+	if (scenes.current=='train_light') {
+		if (controls.style.display=="block") {
+			scenes.train_light.bgsbg = 'train_cars_light_no_title';
+			controls.style.display = "none";
+		}
+	}
 };
 INTERACT.bob = function() {
-	DIALOG.print(DIALOG.bob)
+	DIALOG.print(DIALOG.bob);
+	if (controls.style.display=="block") {
+		scenes.train_light.bgsbg = 'train_cars_light_no_title';
+		controls.style.display = "none";
+	}
 };
 INTERACT.elevator = function() {
 	if (scenes.current.includes('station_ext')) {
@@ -31,7 +42,6 @@ CHOICE.bob = [
 			DIALOG.print(DIALOG.bob2);
 			DIALOG.bob[0]++;
 			setTimeout(function() {
-				document.getElementById("controls").style.display = "none";
 				world.classList.remove('screenshake');
 				setScene('train_station1')
 			},5000)
@@ -43,7 +53,6 @@ CHOICE.bob = [
 			DIALOG.print(DIALOG.bob3);
 			DIALOG.bob[0]++;
 			setTimeout(function() {
-				document.getElementById("controls").style.display = "none";
 				world.classList.remove('screenshake');
 				setScene('train_station1')
 			},5000)
@@ -72,6 +81,7 @@ createBG('train_car', 44, 58, 68, 21);
 createFG('train_car_fg');
 createPX('light', 5);
 createPX('train_cars_light', 0);
+createPX('train_cars_light_no_title', 0);
 createChar('bob');
 scenes.train_light = {
 	title: '🚆',

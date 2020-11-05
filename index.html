@@ -51,7 +51,7 @@
 			position: absolute;
 		    width: var(--world-width);
 			display: block;
-		    font-size: 25px;
+		    font-size: calc(var(--pixel-size) * 4px);
 		    text-align: center;
 		    color: #ebf2e7;
 		    padding: 10px;
@@ -69,24 +69,30 @@
 		}
 		#text {
 			width: inherit;
-		    background-color: #627179;
-		    margin-bottom: 5px;
+		    background-color: #1c4d65;
+		    margin-bottom: calc(var(--pixel-size) * 1px);
+		    border: calc(var(--pixel-size) * 1px) solid #1c4d65;
+		    padding: calc(var(--pixel-size) * 1px);
+		    -webkit-box-sizing: border-box;
+		    -moz-box-sizing: border-box;
+		    box-sizing: border-box;
 		}
 		.choice {
+			padding: calc(var(--pixel-size) * 1px);
 			margin: 0;
 			margin-bottom: 5px;
 			width: inherit;
 			cursor: pointer;
 			display: block;
-			border: 1px solid #627179;
-			color: #627179;
+			border: calc(var(--pixel-size) * 1px) solid #1c4d65;
+			color: #1c4d65;
 			background-color: #ebf2e7;
 			-webkit-box-sizing: border-box;
 		    -moz-box-sizing: border-box;
 		    box-sizing: border-box;
 		}
 		.choice:hover, .choice:focus {
-			background-color: #627179;
+			background-color: #1c4d65;
 			color: #ebf2e7;
 		}
 		p {
@@ -116,9 +122,9 @@
 		}
 		#controls {
 			position: absolute;
-			top: calc(25% + var(--world-height) * 0.5);
-			left: 50%;
-			transform: translateX(-50%);
+		    top: calc(50% - var(--world-height) * 0.5);
+		    left: calc(50% + var(--world-width) * 0.5);
+		    transform: translateX(-100%);
 		}
 	</style>
 </head>
@@ -136,7 +142,7 @@
 	<div id="dialog_box">
 		<span id="text"></span>
 	</div>
-	<img id="controls" src="assets/sprites/controls.gif" width=40 height=15>
+	<img style="display:block" id="controls" src="assets/sprites/controls.gif" width=40 height=15>
 </body>
 
 <script src="scripts/main.js"></script>
