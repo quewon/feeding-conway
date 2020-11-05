@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="UTF-8">
-	<title>a</title>
+	<title>:)</title>
 	<style>
 		:root {
 			--grid-size: 300px;
@@ -12,12 +12,13 @@
 			--world-height: calc(135px * var(--pixel-size));
 			font-family: monospace;
 		}
-		img {
-			display: none;
-		}
 		body {
 			background-color: #4e5c67;
 			overflow: hidden;
+			image-rendering: -moz-crisp-edges;
+			image-rendering: -webkit-crisp-edges;
+			image-rendering: pixelated;
+			image-rendering: crisp-edges;
 		}
 		canvas, div {
 			position: absolute;
@@ -42,10 +43,6 @@
 			display: none;
 		}
 		#world {
-			image-rendering: -moz-crisp-edges;
-			image-rendering: -webkit-crisp-edges;
-			image-rendering: pixelated;
-			image-rendering: crisp-edges;
 			width: var(--world-width);
 			height: var(--world-height);
 		}
@@ -116,6 +113,12 @@
 				margin-top: 0px;
 			}
 		}
+		#controls {
+			position: absolute;
+			top: calc(25% + var(--world-height) * 0.5);
+			left: 50%;
+			transform: translateX(-50%);
+		}
 	</style>
 </head>
 
@@ -132,6 +135,7 @@
 	<div id="dialog_box">
 		<span id="text"></span>
 	</div>
+	<img id="controls" src="assets/sprites/controls.gif" width=40 height=15>
 </body>
 
 <script src="scripts/main.js"></script>

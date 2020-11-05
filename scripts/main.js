@@ -39,8 +39,8 @@ window.addEventListener("keypress", function(e) {
 	if (grid.on) {
 		gridKeypress(k)
 	}
-
-	if (world.on) {
-		worldKeypress(k)
-	}
 });
+
+window.onresize = function() {
+    rect = bg.getBoundingClientRect();
+}

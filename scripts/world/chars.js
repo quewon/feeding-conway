@@ -300,6 +300,6 @@ function drawChars() {
 		}
 
 		//debug triggers
-		//for (let i=0; i<scenes[scenes.current].triggers.length; i++) {char_context.fillStyle = "#FF0";char_context.fillRect(scenes[scenes.current].triggers[i][0]*ps, 0, ps, char.height)}
+		//if ('triggers' in scenes[scenes.current]) {for (let i=0; i<scenes[scenes.current].triggers.length; i++) {char_context.fillStyle = "#FF0";char_context.fillRect(scenes[scenes.current].triggers[i][0]*ps, 0, ps, char.height)}}
 	}
 }

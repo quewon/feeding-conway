@@ -52,8 +52,7 @@ scenes.train_light = {
 			{
 				name: 'bob',
 				x: 47,
-				y: 68,
-				//dir: 'left'
+				y: 68
 			},
 			{
 				name: 'player',
@@ -63,6 +62,8 @@ scenes.train_light = {
 	],
 	extras: function() {
 		world.classList.add('screenshake');
+		document.getElementById("controls").width *= ps;
+		document.getElementById("controls").height *= ps;
 	}
 };
 
@@ -74,7 +75,6 @@ createChar('train_sign', false, 0, 0, 16, 8, true);
 scenes.train_station1 = {
 	bg: 'train_station1',
 	extras: function() {
-		world.classList.remove('screenshake');
 		setTimeout(function() {
 			setScene('train_station2')
 		},1000)
@@ -331,7 +331,7 @@ scenes.station_ext_left = {
 		},
 	],
 	triggers: [
-		[30,TRIGGERS.stair_left,[]],
+		[40,TRIGGERS.stair_left,[]],
 		[18,function(){setScene('elevator_up3')},[]],
 	]
 };
@@ -343,6 +343,7 @@ scenes.station_ext_pre_elevator = {
 		},
 	],
 	triggers: [
+		[40,TRIGGERS.stair_left,[]],
 		[18,function(){setScene('elevator_up3')},[]],
 	]
 };
@@ -359,14 +360,19 @@ scenes.station_ext_right = {
 			y:78
 		}
 	],
+	triggers: [
+		[40,TRIGGERS.stair_left,[]],
+	]
 };
 
 //function
 function setScene(name) {
-	console.log("scene: "+name);
-
 	//set the scene
 	let s = scenes[name];
+
+	if (scenes[name].title) {
+		document.querySelector("title").textContent = scenes[name].title
+	}
 
 	//destroy triggers
 	TRIGGERS.active = [];

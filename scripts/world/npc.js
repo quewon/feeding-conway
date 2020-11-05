@@ -33,6 +33,8 @@ CHOICE.bob = [
 			DIALOG.print(DIALOG.bob2);
 			DIALOG.bob[0]++;
 			setTimeout(function() {
+				document.getElementById("controls").style.display = "none";
+				world.classList.remove('screenshake');
 				setScene('train_station1')
 			},5000)
 		}
@@ -43,6 +45,8 @@ CHOICE.bob = [
 			DIALOG.print(DIALOG.bob3);
 			DIALOG.bob[0]++;
 			setTimeout(function() {
+				document.getElementById("controls").style.display = "none";
+				world.classList.remove('screenshake');
 				setScene('train_station1')
 			},5000)
 		}
