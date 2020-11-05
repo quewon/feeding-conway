@@ -32,8 +32,10 @@ function createChar(name, has_face, vis0, vis1, vis2, vis3, no_alpha) {
 
 function setChar(name, x, y, dir) {
 	let c = chars[name];
-	if (x && y) {
+	if (x) {
 		c.x = x+1;
+	}
+	if (y) { 
 		c.y = y-2;
 	}
 	if (dir=='left' && 'facing_right' in c) {
@@ -43,6 +45,7 @@ function setChar(name, x, y, dir) {
 
 function moveChar(name, axis, dir, fromtrigger) {
 	let c = chars[name];
+	let blocked;
 
 	if ('bg' in scenes[scenes.current]) {
 		let b = backgrounds[scenes[scenes.current].bg].boundary;
@@ -50,8 +53,11 @@ function moveChar(name, axis, dir, fromtrigger) {
 		if (axis=='x') {
 			let w = c.vis[2];
 			let a = c.x+dir;
-			if (a < b[0]-1 || a+w > b[0]+b[2]+1) { return }
-			c.x += dir;
+			if (a < b[0]-1 || a+w > b[0]+b[2]+1) {
+				blocked = true
+			} else {
+				c.x += dir;
+			}
 			if ('facing_right' in c) {
 				if (dir < 0) {
 					changeFace(name, 'left')
@@ -63,11 +69,14 @@ function moveChar(name, axis, dir, fromtrigger) {
 		if (axis=='y') {
 			let h = c.vis[3]/2;
 			let a = c.y+dir;
-			if (a < b[1]-1 || a+h > b[1]+b[3]+1) { return }
-			c.y += dir;
+			if (a < b[1]-1 || a+h > b[1]+b[3]+1) {
+				blocked = true
+			} else {
+				c.y += dir;
+			}
 		}
 
-		animateChar(name)
+		if (!blocked) { animateChar(name) }
 	}
 
 	if ('triggers' in scenes[scenes.current] && !fromtrigger) {
@@ -80,6 +89,13 @@ function moveChar(name, axis, dir, fromtrigger) {
 				if ((c.facing_right && c.x==t[0]) || (!c.facing_right && c.x==t[0]+1)) { t[1](name, true) }
 				t[2].splice(t[2].indexOf(name),1);
 			} else {
+				let bw = backgrounds[scenes[scenes.current].bg].boundary[2];
+				if(t[0]<0 || t[0]>bw) {
+					if ((blocked && axis=='x' && dir==-1) ||
+						(blocked && axis=='x' && dir==1)) {
+						t[1](name);
+					}
+				}
 				if (c.x==t[0]-1) {
 					t[1](name);
 			    	t[2].push(name);

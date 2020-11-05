@@ -51,14 +51,23 @@
 		}
 		#dialog_box {
 			position: absolute;
-		    top: calc(50% - var(--world-width) * 0.5);
-		    transform: translate(-50%, 46px);
 		    width: var(--world-width);
 			display: block;
 		    font-size: 25px;
 		    text-align: center;
 		    color: #ebf2e7;
 		    padding: 10px;
+		    height: fit-content;
+		    font-smooth: never;
+		    -webkit-font-smoothing: none;
+		}
+		.up {
+			top: calc(50% - var(--world-width) * 0.5);
+		    transform: translate(-50%, 46px);
+		}
+		.down {
+			top: calc(50% + var(--world-height) * 0.5);
+			transform: translate(-50%, -100%);
 		}
 		#text {
 			width: inherit;
@@ -143,7 +152,6 @@
 		//grid.style.display = 'block';
 		//genEmptyCells();
 		setScene('train_light');
-		//setScene('train_stairs');
 		animate();
 	}
 </script>

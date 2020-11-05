@@ -10,6 +10,9 @@ INTERACT.elevator = function() {
 		setScene('pre_elevator');
 	});
 };
+INTERACT.train_sign = function() {
+	DIALOG.print(DIALOG.train_sign)
+}
 INTERACT.station_sign = function() {
 	DIALOG.print(DIALOG.station_sign)
 };
@@ -51,6 +54,7 @@ DIALOG.bob = [
 ];
 DIALOG.bob2 = "👋";
 DIALOG.bob3 = "🚆=😴✅";
+DIALOG.train_sign = "🕘🚆⌛";
 DIALOG.station_sign = "⬆️🚪🚶";
 
 //functions

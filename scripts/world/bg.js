@@ -15,15 +15,30 @@ var ps = parseInt(getComputedStyle(document.documentElement).getPropertyValue('-
 var backgrounds = {};
 
 //functions
-function createBG(name, x, y, width, height, color) {
+function createBG(name, x, y, width, height, color, align_dialog
+	) {
+	color = color || "#ebf2e7";
+	if (color=='light') {
+		color = "#ebf2e7"
+	} else if (color=='dark') {
+		color = "#4e5c67"
+	}
+	align_dialog = align_dialog || 'up';
 	backgrounds[name] = {};
 	backgrounds[name].img = new Image();
 	backgrounds[name].img.src = "assets/bg/"+name+".png";
 	backgrounds[name].boundary = [x, y, width, height];
-	backgrounds[name].color = color || "#ebf2e7";
+	backgrounds[name].color = color;
+	backgrounds[name].align_dialog = align_dialog;
 }
 
 function setBG(name) {
+	if (backgrounds[name].align_dialog=="up") {
+		dialog_box.className = "up"
+	} else {
+		dialog_box.className = "down"
+	}
+
 	document.body.style.backgroundColor = backgrounds[name].color;
 }
 
