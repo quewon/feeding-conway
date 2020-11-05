@@ -38,7 +38,8 @@ function setChar(name, x, y, dir) {
 	if (y) { 
 		c.y = y-2;
 	}
-	if (dir=='left' && 'facing_right' in c) {
+
+	if (dir && 'facing_right' in c) {
 		changeFace(name, dir)
 	}
 }
@@ -80,7 +81,7 @@ function moveChar(name, axis, dir, fromtrigger) {
 	}
 
 	if ('triggers' in scenes[scenes.current] && !fromtrigger) {
-		let arr = scenes[scenaes.current].triggers;
+		let arr = scenes[scenes.current].triggers;
 
 		for (let i=0; i<arr.length; i++) {
 			let t = arr[i];
@@ -217,18 +218,26 @@ function animateChar(name, f) {
 	c.vis[0] = c.vis[2] * c.frame[0]
 }
 
-function playCharAnimation(name, extras) {
+function playCharAnimation(name, extras, reverse) {
 	let c = chars[name];
 
 	c.vis[0] = 0;
-
 	let framesize = c.vis[2]+1;
 	let frames = ((c.img.width-c.vis[2])/framesize)+1;
+	if (reverse) {
+		c.vis[0] = c.img.width-c.vis[2];
+	}
 
 	for (let i=1; i<frames; i++) {
-		setTimeout(function() {
-			c.vis[0] += framesize;
-		},300*i)
+		if (reverse) {
+			setTimeout(function() {
+				c.vis[0] -= framesize;
+			},300*i);
+		} else {
+			setTimeout(function() {
+				c.vis[0] += framesize;
+			},300*i)
+		}
 	}
 
 	if (extras) {

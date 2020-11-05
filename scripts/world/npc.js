@@ -6,9 +6,15 @@ INTERACT.bob = function() {
 	DIALOG.print(DIALOG.bob)
 };
 INTERACT.elevator = function() {
-	playCharAnimation('elevator', function() {
-		setScene('pre_elevator');
-	});
+	if (scenes.current.includes('station_ext')) {
+		playCharAnimation('elevator', function() {
+			setScene('station_ext_pre_elevator');
+		});
+	} else {
+		playCharAnimation('elevator', function() {
+			setScene('station_stairs_pre_elevator');
+		});
+	}
 };
 INTERACT.train_sign = function() {
 	DIALOG.print(DIALOG.train_sign)
@@ -27,7 +33,7 @@ CHOICE.bob = [
 			DIALOG.print(DIALOG.bob2);
 			DIALOG.bob[0]++;
 			setTimeout(function() {
-				setScene('train_station')
+				setScene('train_station1')
 			},5000)
 		}
 	},
@@ -37,7 +43,7 @@ CHOICE.bob = [
 			DIALOG.print(DIALOG.bob3);
 			DIALOG.bob[0]++;
 			setTimeout(function() {
-				setScene('train_station')
+				setScene('train_station1')
 			},5000)
 		}
 	}
