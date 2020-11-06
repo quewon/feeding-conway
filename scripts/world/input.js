@@ -8,6 +8,12 @@ KeyboardController({
 //i could implement my own solution here
 //but i'd rather move on
 
+function worldKeyup(k) {
+    if (k===87 || k===38) {
+        openDoor(available_door)
+    }
+}
+
 function interactChar(name) {
     if (!name) { DIALOG.reset(); return }
     chars[name].interaction();

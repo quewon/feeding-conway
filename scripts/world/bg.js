@@ -12,9 +12,68 @@ bg_context.imageSmoothingEnabled = false;
 
 var ps = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--pixel-size'));
 
-var backgrounds = {};
+//doors
+var doors = {};
+var door_icon = document.getElementById("door_icon");
+function createDoor(name, vis0, vis1, vis2, vis3) {
+	doors[name] = {};
+	doors[name].img = new Image();
+	doors[name].img.src = "assets/sprites/"+name+".png";
+	doors[name].vis = [vis0, vis1, vis2, vis3];
+}
 
-//functions
+var available_door = undefined;
+function openDoor(i) {
+	if (i==undefined) { return }
+
+	let s = scenes[scenes.current];
+	let door = s.doors[i];
+	let c = doors[door.name];
+	let d = door.destination;
+
+	c.vis[0] = 0;
+	let framesize = c.vis[2]+1;
+	let frames = ((c.img.width-c.vis[2])/framesize);
+
+	for (let i=1; i<frames; i++) {
+		setTimeout(function() {
+			c.vis[0] += framesize;
+		},300*i)
+	}
+	setTimeout(function() {
+		let s = scenes.current;
+		setScene(d);
+
+		if ('doors' in scenes[s]) {
+			let ds = scenes[s].doors;
+			for (let i=0; i<ds.length; i++) {
+				if (ds[i].destination==s) {
+					closeDoor(ds[i].name)
+				}
+			}
+		}
+	}, 300*frames)
+}
+
+function closeDoor(i) {
+	let s = scenes[scenes.current];
+	let door = s.doors[i];
+	let c = doors[door.name];
+	let d = door.destination;
+	
+	c.vis[0] = c.img.width-c.vis[2];
+	let framesize = c.vis[2]+1;
+	let frames = ((c.img.width-c.vis[2])/framesize)+1;
+
+	for (let i=1; i<frames; i++) {
+		setTimeout(function() {
+			c.vis[0] -= framesize;
+		},300*i);
+	}
+}
+
+//backgrounds
+var backgrounds = {};
 function createBG(name, x, y, width, height, color, align_dialog
 	) {
 	color = color || "#ebf2e7";
@@ -77,8 +136,10 @@ px_context.imageSmoothingEnabled = false;
 
 //loop
 function drawBG() {
-	if (scenes[scenes.current].parallax) {
-		let p = parallaxs[scenes[scenes.current].parallax];
+	let s = scenes[scenes.current];
+
+	if ('parallax' in s) {
+		let p = parallaxs[s.parallax];
 
 		if ('counter' in p) {
 			p.counter+=p.speed;
@@ -91,15 +152,21 @@ function drawBG() {
 		}
 	}
 
-	let b = parallaxs[scenes[scenes.current].bgsbg];
-
-	if (b) {
+	if ('bgsbg' in s) {
+		let b = parallaxs[s.bgsbg];
 		px_context.drawImage(b.img, 0, 0, b.img.width*ps, b.img.height*ps);
 	}
 
-	let background = backgrounds[scenes[scenes.current].bg];
-
-	if (background) {
+	if ('bg' in s) {
+		let background = backgrounds[s.bg];
 		bg_context.drawImage(background.img, 0, 0, background.img.width*ps, background.img.height*ps);
+	}
+
+	if ('doors' in s) {
+		let ds = s.doors;
+		for (let i=0; i<ds.length; i++) {
+			let d = doors[ds[i].name];
+			bg_context.drawImage(d.img, d.vis[0], d.vis[1], d.vis[2], d.vis[3], ds[i].x*ps, ds[i].y*ps, d.vis[2]*ps, d.vis[3]*ps)
+		}
 	}
 }

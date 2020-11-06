@@ -1,5 +1,4 @@
 //DIALOG AND INTERACTIONS
-var controls = document.getElementById("controls");
 INTERACT.player = function() {
 	DIALOG.print(DIALOG.player);
 	if (scenes.current=='train_light') {
@@ -14,17 +13,6 @@ INTERACT.bob = function() {
 	if (controls.style.display=="block") {
 		scenes.train_light.bgsbg = 'train_cars_light_no_title';
 		controls.style.display = "none";
-	}
-};
-INTERACT.elevator = function() {
-	if (scenes.current.includes('station_ext')) {
-		playCharAnimation('elevator', function() {
-			setScene('station_ext_pre_elevator');
-		});
-	} else {
-		playCharAnimation('elevator', function() {
-			setScene('station_stairs_pre_elevator');
-		});
 	}
 };
 INTERACT.train_sign = function() {
@@ -83,6 +71,7 @@ createPX('light', 5);
 createPX('train_cars_light', 0);
 createPX('train_cars_light_no_title', 0);
 createChar('bob');
+var controls = document.getElementById("controls");
 scenes.train_light = {
 	title: '🚆',
 	parallax: 'light',
@@ -103,8 +92,7 @@ scenes.train_light = {
 	],
 	extras: function() {
 		world.classList.add('screenshake');
-		document.getElementById("controls").width *= ps;
-		document.getElementById("controls").height *= ps;
+		controls.style.display = "block";
 	}
 };
 
@@ -177,16 +165,11 @@ scenes.train_station = {
 }
 
 createBG('station_stairs', 0, 0, 154, 46, "dark", 'down');
-createChar('elevator', false, 0, 0, 16, 25, true);
+createDoor('elevator', 0, 0, 16, 25);
 createChar('station_sign', false, 0, 0, 16, 5, true);
 scenes.station_stairs_right = {
 	bg: 'station_stairs',
 	chars: [
-		{
-			name: 'elevator',
-			x: 15,
-			y: 12
-		},
 		{
 			name: 'station_sign',
 			x: 46,
@@ -197,6 +180,14 @@ scenes.station_stairs_right = {
 			x: 147,
 			y: 34,
 			dir: 'left'
+		}
+	],
+	doors: [
+		{
+			name: 'elevator',
+			destination: 'elevator_down1',
+			x: 16,
+			y: 10
 		}
 	],
 	triggers: [
@@ -214,33 +205,6 @@ scenes.station_stairs_right = {
 	]
 };
 createBG('station_stairs_left', 0, 0, 154, 46, "dark", 'down');
-scenes.station_stairs_pre_elevator = {
-	bg: 'station_stairs_left',
-	chars: [
-		{
-			name: 'station_sign',
-			x: 46,
-			y: 5
-		},
-		{
-			name: 'player'
-		}
-	],
-	triggers: [
-		[18,function(){setScene('elevator_down1')},[]],
-		[80,TRIGGERS.stair_left,[]],
-		[75,TRIGGERS.stair_left,[]],
-		[70,TRIGGERS.stair_left,[]],
-		[65,TRIGGERS.stair_left,[]],
-		[60,TRIGGERS.stair_left,[]],
-		[55,TRIGGERS.stair_left,[]],
-		[50,TRIGGERS.stair_left,[]],
-		[45,TRIGGERS.stair_left,[]],
-		[40,TRIGGERS.stair_left,[]],
-		[35,TRIGGERS.stair_left,[]],
-		[155,function(){setScene('train_station')},[]]
-	]
-};
 scenes.station_stairs_left = {
 	bg: 'station_stairs_left',
 	fg: 'station_stairs_fg',
@@ -257,8 +221,15 @@ scenes.station_stairs_left = {
 			dir: 'right'
 		}
 	],
+	doors: [
+		{
+			name: 'elevator',
+			destination: 'elevator_down1',
+			x: 16,
+			y: 10
+		}
+	],
 	triggers: [
-		[18,function(){setScene('elevator_down1')},[]],
 		[80,TRIGGERS.stair_left,[]],
 		[75,TRIGGERS.stair_left,[]],
 		[70,TRIGGERS.stair_left,[]],
@@ -270,12 +241,14 @@ scenes.station_stairs_left = {
 		[40,TRIGGERS.stair_left,[]],
 		[35,TRIGGERS.stair_left,[]],
 		[155,function(){setScene('train_station')},[]]
-	]
+	],
+	extras: function() {
+		closeDoor(available_door)
+	}
 };
 
 createBG('elevator1', 8, 12, 23, 24, 'dark', 'down');
-createBG('elevator2', 8, 40, 23, 24, 'dark', 'down');
-createBG('elevator3', 8, 66, 23, 24, 'dark', 'up');
+createBG('elevator2', 8, 66, 23, 24, 'dark', 'up');
 scenes.elevator_down1 = {
 	bg: 'elevator1',
 	chars: [
@@ -292,20 +265,6 @@ scenes.elevator_down1 = {
 };
 scenes.elevator_down2 = {
 	bg: 'elevator2',
-	chars: [
-		{
-			name: 'player',
-			y: 52
-		}
-	],
-	extras: function() {
-		setTimeout(function() {
-			setScene('elevator_down3')
-		}, 1000)
-	}
-};
-scenes.elevator_down3 = {
-	bg: 'elevator3',
 	chars: [
 		{
 			name: 'player',
@@ -337,26 +296,12 @@ scenes.elevator_up2 = {
 	chars: [
 		{
 			name: 'player',
-			y: 52
-		}
-	],
-	extras: function() {
-		setTimeout(function() {
-			setScene('elevator_up1')
-		}, 1000)
-	}
-};
-scenes.elevator_up3 = {
-	bg: 'elevator3',
-	chars: [
-		{
-			name: 'player',
 			y: 78
 		}
 	],
 	extras: function() {
 		setTimeout(function() {
-			setScene('elevator_up2')
+			setScene('elevator_up1')
 		}, 1000)
 	}
 };
@@ -372,32 +317,33 @@ scenes.station_ext_left = {
 			y:78
 		},
 	],
+	doors: [
+		{
+			name: 'elevator',
+			destination: 'elevator_up2',
+			x: 16,
+			y: 64
+		}
+	],
 	triggers: [
 		[48,TRIGGERS.stair_left,[]],
-		[18,function(){setScene('elevator_up3')},[]],
 	]
-};
-scenes.station_ext_pre_elevator = {
-	bg: 'station_ext_left',
-	chars: [
-		{
-			name: 'player'
-		},
-	],
-	triggers: scenes.station_ext_left.triggers,
 };
 scenes.station_ext_right = {
 	title: '🚉',
 	bg: 'station_ext',
 	chars: [
 		{
-			name: 'elevator',
-			x:15,
-			y:66,
-		},
-		{
 			name: 'player',
 			y:78
+		}
+	],
+	doors: [
+		{
+			name: 'elevator_inside',
+			destination: 'elevator_up2',
+			x: 15,
+			y: 66
 		}
 	],
 	triggers: [

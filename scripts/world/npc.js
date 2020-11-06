@@ -5,7 +5,7 @@ var CHOICE = {};
 //functions
 DIALOG.print = function(t) {
 	DIALOG.reset();
-    text.style.display = "block";
+	dialog_box.style.display = "block";
 
 	if (typeof t === "string") {
 		text.innerHTML = t;
@@ -45,6 +45,6 @@ DIALOG.reset = function() {
 		dialog_box.removeChild(dialog_box.lastChild);
 	}
 
-	text.style.display = "none";
+	dialog_box.style.display = "none";
 	cursor.index = -1;
 }

@@ -117,6 +117,29 @@ function moveChar(name, axis, dir, fromtrigger) {
 			}
 		}
 	}
+
+	//check for doors
+	if (name=='player' && 'doors' in scenes[scenes.current]) {
+		let ds = scenes[scenes.current].doors;
+		let x = chars.player.x;
+		let dx, dy;
+		for (let i=0; i<ds.length; i++) {
+			available_door = undefined;
+			if (x>=ds[i].x-1 && x<=ds[i].x+doors[ds[i].name].vis[2]-2) {
+				available_door = i;
+				dx = (ds[i].x+doors[ds[i].name].vis[2]/2)*ps-door_icon.width/2;
+				dy = (ds[i].y-1)*ps-door_icon.height;
+				break
+			}
+		}
+		if (available_door!=undefined) {
+			door_icon.style.display = "block";
+			door_icon.style.left = "calc(50% - var(--world-width) * 0.5 + "+dx+"px)";
+			door_icon.style.top = "calc(50% - var(--world-height) * 0.5 + "+dy+"px)";
+		} else {
+			door_icon.style.display = "none";
+		}
+	}
 }
 
 var outlined;
@@ -225,35 +248,6 @@ function animateChar(name, f) {
 	}
 
 	c.vis[0] = c.vis[2] * c.frame[0]
-}
-
-function playCharAnimation(name, extras, reverse) {
-	let c = chars[name];
-
-	c.vis[0] = 0;
-	let framesize = c.vis[2]+1;
-	let frames = ((c.img.width-c.vis[2])/framesize)+1;
-	if (reverse) {
-		c.vis[0] = c.img.width-c.vis[2];
-	}
-
-	for (let i=1; i<frames; i++) {
-		if (reverse) {
-			setTimeout(function() {
-				c.vis[0] -= framesize;
-			},300*i);
-		} else {
-			setTimeout(function() {
-				c.vis[0] += framesize;
-			},300*i)
-		}
-	}
-
-	if (extras) {
-		setTimeout(function() {
-			extras()
-		},300*frames)
-	}
 }
 
 function stopChars() {

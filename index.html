@@ -14,7 +14,7 @@
 			font-family: monospace;
 		}
 		body {
-			background-color: #4e5c67;
+			background-color: #ebf2e7;
 			overflow: hidden;
 			image-rendering: -moz-crisp-edges;
 			image-rendering: -webkit-crisp-edges;
@@ -41,7 +41,6 @@
 		#grid {
 			width: var(--grid-size);
 			height: var(--grid-size);
-			display: none;
 		}
 		#world {
 			width: var(--world-width);
@@ -50,11 +49,9 @@
 		#dialog_box {
 			position: absolute;
 		    width: var(--world-width);
-			display: block;
 		    font-size: calc(var(--pixel-size) * 4px);
 		    text-align: center;
 		    color: #ebf2e7;
-		    padding: 10px;
 		    height: fit-content;
 		    font-smooth: never;
 		    -webkit-font-smoothing: none;
@@ -68,6 +65,7 @@
 			transform: translate(-50%, -100%);
 		}
 		#text {
+			display: inline-block;
 			width: inherit;
 		    background-color: #1c4d65;
 		    margin-bottom: calc(var(--pixel-size) * 1px);
@@ -120,9 +118,12 @@
 				margin-top: 0px;
 			}
 		}
-		#controls {
+		img {
 			position: absolute;
-		    top: calc(50% - var(--world-height) * 0.5);
+		    pointer-events: none;
+		}
+		#controls {
+			top: calc(50% - var(--world-height) * 0.5);
 		    left: calc(50% + var(--world-width) * 0.5);
 		    transform: translateX(-100%);
 		}
@@ -131,18 +132,19 @@
 
 <body>
 	<canvas id="px" class="world"></canvas>
+	<img style="display:none" id="controls" src="assets/controls.gif" width=17 height=20>
 	<div id="world">
 		<canvas id="bg" class="world"></canvas>
 		<canvas id="chars" class="world"></canvas>
+		<img style="display:none" id="door_icon" src="assets/door_icon.gif" width=8 height=7>
 		<canvas id="fg" class="world"></canvas>
 	</div>
 
-	<canvas id="grid"></canvas>
+	<canvas style="display:none" id="grid"></canvas>
 
-	<div id="dialog_box">
+	<div style="display:none;left:0;top:0" id="dialog_box">
 		<span id="text"></span>
 	</div>
-	<img style="display:block" id="controls" src="assets/controls.gif" width=17 height=20>
 </body>
 
 <script src="scripts/main.js"></script>
@@ -160,14 +162,17 @@
 <script src="scripts/grid/behavior.js"></script>
 <script src="scripts/grid/input.js"></script>
 <script>
-	window.onload = function() {
-		world.on = true;
-		//grid.on = true;
-		//grid.style.display = 'block';
-		//genEmptyCells();
-		setScene('train_light');
-		animate();
-	}
-</script>
+	//grid.on = true;
+	//grid.style.display = 'block';
+	//genEmptyCells();
 
+	controls.width *= ps;
+	controls.height *= ps;
+	door_icon.width *= ps;
+	door_icon.height *= ps;
+
+	world.on = true;
+	setScene('train_light');
+	animate();
+</script>
 </html>
