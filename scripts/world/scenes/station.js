@@ -373,7 +373,7 @@ scenes.station_ext_left = {
 		},
 	],
 	triggers: [
-		[40,TRIGGERS.stair_left,[]],
+		[48,TRIGGERS.stair_left,[]],
 		[18,function(){setScene('elevator_up3')},[]],
 	]
 };
@@ -384,10 +384,7 @@ scenes.station_ext_pre_elevator = {
 			name: 'player'
 		},
 	],
-	triggers: [
-		[40,TRIGGERS.stair_left,[]],
-		[18,function(){setScene('elevator_up3')},[]],
-	]
+	triggers: scenes.station_ext_left.triggers,
 };
 scenes.station_ext_right = {
 	title: '🚉',
@@ -404,6 +401,6 @@ scenes.station_ext_right = {
 		}
 	],
 	triggers: [
-		[40,TRIGGERS.stair_left,[]],
+		[48,TRIGGERS.stair_left,[]],
 	]
 };
