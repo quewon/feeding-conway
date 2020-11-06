@@ -1,14 +1,12 @@
 mouse = {x:0,y:0,down:false};
 
 colors = {};
-colors.bg = '#303030';
-colors.a = '#4d4d4d';
-colors.b = '#ee6a7c';
-colors.c = '#ffa7a5'; //lazy
-colors.d = '#ffe07e';
-colors.e = '#72dcbb'; //firey
-colors.f = '#34acba';
-colors.g = '#ffe7d6';
+colors.bg = '#ebf2e7';
+colors.c = '#4e5c67';
+colors.d = '#d3d9d3';
+colors.e = '#90c1c1';
+colors.f = '#4b858f';
+colors.g = '#1c4d65';
 
 function animate() {
 	requestAnimationFrame(animate);

@@ -4,7 +4,7 @@ var grid_context = grid.getContext('2d');
 grid.height = grid.width = parseInt(getComputedStyle(grid)["width"]);
 grid.on = false;
 
-var cellsize = grid.height / 30;
+var cellsize = ps*2;
 //number of chunks on axis (there are chunks^2 chunks)
 var chunks = 4;
 
@@ -47,7 +47,11 @@ function drawGrid() {
 	let hl = cells[getCell(highlight.x, highlight.y)];
 	if (hl != undefined) {
 		grid_context.fillStyle = highlight.color;
+		grid_context.fillRect((hl.x-1)*cellsize, hl.y*cellsize, cellsize, cellsize);
 		grid_context.fillRect(hl.x*cellsize, hl.y*cellsize, cellsize, cellsize);
+		grid_context.fillRect((hl.x+1)*cellsize, hl.y*cellsize, cellsize, cellsize);
+		grid_context.fillRect(hl.x*cellsize, (hl.y+1)*cellsize, cellsize, cellsize);
+		grid_context.fillRect(hl.x*cellsize, (hl.y-1)*cellsize, cellsize, cellsize);
 	}
 }
 

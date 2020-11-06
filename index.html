@@ -7,8 +7,8 @@
 	<title>🌻</title>
 	<style>
 		:root {
-			--grid-size: 300px;
 			--pixel-size: 5;
+			--grid-size: calc(80px * var(--pixel-size));
 			--world-width: calc(154px * var(--pixel-size));
 			--world-height: calc(135px * var(--pixel-size));
 			font-family: monospace;
@@ -39,6 +39,7 @@
 			cursor: default;
 		}
 		#grid {
+			top: 38%;
 			width: var(--grid-size);
 			height: var(--grid-size);
 		}
@@ -157,22 +158,21 @@
 
 <script src="scripts/world/scenes/station.js"></script>
 <script src="scripts/world/scenes/town.js"></script>
+<script src="scripts/world/scenes/institute.js"></script>
 
 <script src="scripts/grid/canvas.js"></script>
 <script src="scripts/grid/behavior.js"></script>
 <script src="scripts/grid/input.js"></script>
 <script>
-	//grid.on = true;
-	//grid.style.display = 'block';
-	//genEmptyCells();
-
 	controls.width *= ps;
 	controls.height *= ps;
 	door_icon.width *= ps;
 	door_icon.height *= ps;
 
 	world.on = true;
-	setScene('train_light');
+	//setScene('train_light');
+	genEmptyCells();
+	setScene('lab');
 	animate();
 </script>
 </html>
