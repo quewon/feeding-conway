@@ -1,13 +1,3 @@
-mouse = {x:0,y:0,down:false};
-
-colors = {};
-colors.bg = '#ebf2e7';
-colors.c = '#4e5c67';
-colors.d = '#d3d9d3';
-colors.e = '#90c1c1';
-colors.f = '#4b858f';
-colors.g = '#1c4d65';
-
 function animate() {
 	requestAnimationFrame(animate);
 
@@ -42,11 +32,19 @@ window.addEventListener("keypress", function(e) {
 window.addEventListener("keyup", function(e) {
 	let k = e.keyCode || e.which;
 
-	if (world.on) {
-		worldKeyup(k)
-	}
+	worldKeyup(e);
 })
 
 window.onresize = function() {
-    rect = bg.getBoundingClientRect();
+    world_rect = bg.getBoundingClientRect();
+    grid_rect = grid.getBoundingClientRect();
 };
+
+var container = document.getElementById("container");
+container.onmousemove = function(e) {
+	if (grid.on) { gridMousemove(e) }
+	worldMousemove(e);
+}
+container.onmouseout = function(e) {
+	worldMouseout(e)
+}

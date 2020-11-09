@@ -1,3 +1,5 @@
+mouse = {x:0,y:0,down:false};
+
 grid.status = true;
 grid.speed = 2;
 grid.counter = 0;
@@ -73,14 +75,14 @@ function debug(cell) {
 	for (i=0; i<cs.length; i++) { cells[cs[i]].color = getRandomColor(); }
 }
 
-function gridMouse(e) {
-	let rect = grid.getBoundingClientRect();
+var grid_rect = grid.getBoundingClientRect();
 
+function gridMousemove(e) {
 	mouse.x = e.clientX || e.touches[0].clientX;
 	mouse.y = e.clientY || e.touches[0].clientY;
 
-	mouse.x = (mouse.x - rect.left) / (rect.right - rect.left) * grid.width;
-	mouse.y = (mouse.y - rect.top) / (rect.bottom - rect.top) * grid.height;
+	mouse.x = (mouse.x - grid_rect.left) / (grid_rect.right - grid_rect.left) * grid.width;
+	mouse.y = (mouse.y - grid_rect.top) / (grid_rect.bottom - grid_rect.top) * grid.height;
 
 	highlight.x = mouse.x;
 	highlight.y = mouse.y;
@@ -92,12 +94,4 @@ function gridMouse(e) {
 
 		//debug(cell)
 	}
-}
-
-window.onmousemove = function(e) {
-	gridMouse(e)
-};
-
-window.ontouchmove = function(e) {
-	gridMouse(e)
 }

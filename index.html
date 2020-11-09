@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 
@@ -11,23 +12,26 @@
 			--grid-size: calc(80px * var(--pixel-size));
 			--world-width: calc(154px * var(--pixel-size));
 			--world-height: calc(135px * var(--pixel-size));
-			font-family: monospace;
 		}
+
 		body {
+			font-family: monospace;
 			background-color: #ebf2e7;
-			overflow: hidden;
 			image-rendering: -moz-crisp-edges;
 			image-rendering: -webkit-crisp-edges;
 			image-rendering: pixelated;
 			image-rendering: crisp-edges;
 		}
-		canvas, div {
+
+		#container {
 			position: absolute;
-			left: 50%;
 			top: 50%;
+			left: 50%;
 			transform: translate(-50%, -50%);
-			touch-action: none;
+			width: var(--world-width);
+			height: var(--world-height);
 			cursor: none;
+			touch-action: none;
 			-webkit-touch-callout: none;
 		    -webkit-user-select: none;
 		     -khtml-user-select: none;
@@ -35,36 +39,39 @@
 		        -ms-user-select: none;
 		            user-select: none;
 		}
-		div {
-			cursor: default;
-		}
-		#grid {
-			top: 36.5%;
-			width: var(--grid-size);
-			height: var(--grid-size);
-		}
+
 		#world {
+			position: absolute;
 			width: var(--world-width);
 			height: var(--world-height);
 		}
+
+		#grid {
+			position: absolute;
+			top: calc(var(--pixel-size) * 2.3px);
+		    left: 50%;
+		    transform: translateX(-50%);
+			width: var(--grid-size);
+			height: var(--grid-size);
+		}
+
+		.world {
+			position: absolute;
+		}
+
 		#dialog_box {
 			position: absolute;
 		    width: var(--world-width);
-		    font-size: calc(var(--pixel-size) * 4px);
-		    text-align: center;
-		    color: #ebf2e7;
 		    height: fit-content;
-		    font-smooth: never;
+		    cursor: default;
+		    color: #ebf2e7;
+		    text-align: center;
+		   	font-smooth: never;
 		    -webkit-font-smoothing: none;
+		    font-size: calc(var(--pixel-size) * 4px);
 		}
-		.up {
-			top: calc(50% - var(--world-width) * 0.5);
-		    transform: translate(-50%, 46px);
-		}
-		.down {
-			top: calc(50% + var(--world-height) * 0.5);
-			transform: translate(-50%, -100%);
-		}
+		.up { top: 0 }
+		.down { bottom: 0 }
 		#text {
 			display: inline-block;
 			width: inherit;
@@ -94,15 +101,7 @@
 			background-color: #1c4d65;
 			color: #ebf2e7;
 		}
-		p {
-			margin: calc(var(--size)/5);
-		}
-		button {
-			cursor: pointer;
-			font-family: inherit;
-			background-color: transparent;
-			color: inherit;
-		}
+
 		.screenshake {
 			animation: slightScreenShake 2s infinite;
 		}
@@ -119,60 +118,65 @@
 				margin-top: 0px;
 			}
 		}
+
 		img {
 			position: absolute;
 		    pointer-events: none;
 		}
+
 		#controls {
-			top: calc(50% - var(--world-height) * 0.5);
-		    left: calc(50% + var(--world-width) * 0.5);
-		    transform: translateX(-100%);
+			position: relative;
+			float: right;
 		}
 	</style>
 </head>
 
 <body>
-	<canvas id="px" class="world"></canvas>
-	<img style="display:none" id="controls" src="assets/controls.gif" width=17 height=20>
-	<div id="world">
-		<canvas id="bg" class="world"></canvas>
-		<canvas id="chars" class="world"></canvas>
-		<img style="display:none" id="door_icon" src="assets/door_icon.gif" width=8 height=7>
-		<canvas id="fg" class="world"></canvas>
+	<div id="container">
+
+		<canvas id="px" class="world"></canvas>
+		<img style="display:none" id="controls" src="assets/controls.gif" width=17 height=20>
+		<div id="world">
+			<canvas id="bg" class="world"></canvas>
+			<canvas id="char" class="world"></canvas>
+			<img style="display:none" id="door_icon" src="assets/door_icon.gif" width=8 height=7>
+			<canvas id="fg" class="world"></canvas>
+		</div>
+
+		<canvas style="display:none" id="grid"></canvas>
+
+		<div style="display:none" id="dialog_box">
+			<span id="text"></span>
+		</div>
+
 	</div>
 
-	<canvas style="display:none" id="grid"></canvas>
+	<script src="scripts/main.js"></script>
+	
+	<script src="scripts/world/bg.js"></script>
+	<script src="scripts/world/chars.js"></script>
+	<script src="scripts/world/fg.js"></script>
+	<script src="scripts/world/npc.js"></script>
+	<script src="scripts/world/scenes.js"></script>
+	<script src="scripts/world/input.js"></script>
 
-	<div style="display:none" id="dialog_box">
-		<span id="text"></span>
-	</div>
+	<script src="scripts/world/scenes/station.js"></script>
+	<script src="scripts/world/scenes/institute.js"></script>
+
+	<script src="scripts/grid/canvas.js"></script>
+	<script src="scripts/grid/behavior.js"></script>
+	<script src="scripts/grid/input.js"></script>
+	<script>
+		controls.width *= ps;
+		controls.height *= ps;
+		door_icon.width *= ps;
+		door_icon.height *= ps;
+
+		genEmptyCells();
+		world.on = true;
+		//setScene('train_light');
+		setScene('lab');
+		animate();
+	</script>
 </body>
-
-<script src="scripts/main.js"></script>
-<script src="scripts/world/bg.js"></script>
-<script src="scripts/world/chars.js"></script>
-<script src="scripts/world/fg.js"></script>
-<script src="scripts/world/npc.js"></script>
-<script src="scripts/world/scenes.js"></script>
-<script src="scripts/world/input.js"></script>
-
-<script src="scripts/world/scenes/station.js"></script>
-<script src="scripts/world/scenes/town.js"></script>
-<script src="scripts/world/scenes/institute.js"></script>
-
-<script src="scripts/grid/canvas.js"></script>
-<script src="scripts/grid/behavior.js"></script>
-<script src="scripts/grid/input.js"></script>
-<script>
-	controls.width *= ps;
-	controls.height *= ps;
-	door_icon.width *= ps;
-	door_icon.height *= ps;
-
-	world.on = true;
-	//setScene('train_light');
-	genEmptyCells();
-	setScene('lab');
-	animate();
-</script>
 </html>

@@ -70,20 +70,21 @@ world.onclick = function() {
 };
 
 var cursor = {x:undefined,y:undefined,index:-1};
-var rect = bg.getBoundingClientRect();
-world.onmousemove = function(e) {
+var world_rect = bg.getBoundingClientRect();
+function worldMousemove(e) {
     let x = e.clientX;
     let y = e.clientY;
 
-    x = (x - rect.left) / (rect.right - rect.left) * bg.width;
-    y = (y - rect.top) / (rect.bottom - rect.top) * bg.height;
+    x = (x - world_rect.left) / (world_rect.right - world_rect.left) * bg.width;
+    y = (y - world_rect.top) / (world_rect.bottom - world_rect.top) * bg.height;
 
     cursor.x = x-1;
     cursor.y = y-1;
-};
-world.onmouseout = function() {
+}
+
+function worldMouseout(e) {
     cursor = {x:undefined,y:undefined,index:-1};
-};
+}
 
 //https://stackoverflow.com/a/3691661/9375514
 function KeyboardController(keys, repeat) {

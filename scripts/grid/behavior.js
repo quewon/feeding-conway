@@ -1,3 +1,11 @@
+colors = {};
+colors.bg = '#ebf2e7';
+colors.c = '#4e5c67';
+colors.d = '#d3d9d3';
+colors.e = '#90c1c1';
+colors.f = '#4b858f';
+colors.g = '#1c4d65';
+
 const behavior = {};
 var behavior_setting = 'lazy';
 

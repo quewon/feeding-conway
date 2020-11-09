@@ -1,5 +1,5 @@
 //init
-var char = document.getElementById("chars");
+var char = document.getElementById("char");
 var char_context = char.getContext("2d");
 char.width = bg.width;
 char.height = bg.height;
@@ -134,8 +134,8 @@ function moveChar(name, axis, dir, fromtrigger) {
 		}
 		if (available_door!=undefined) {
 			door_icon.style.display = "block";
-			door_icon.style.left = "calc(50% - var(--world-width) * 0.5 + "+dx+"px)";
-			door_icon.style.top = "calc(50% - var(--world-height) * 0.5 + "+dy+"px)";
+			door_icon.style.left = dx+"px";
+			door_icon.style.top = dy+"px";
 		} else {
 			door_icon.style.display = "none";
 		}

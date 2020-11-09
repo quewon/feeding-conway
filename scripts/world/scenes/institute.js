@@ -2,6 +2,7 @@ INTERACT.workstation = function() {
 	grid.on = !grid.on;
 	if (grid.on) {
 		grid.style.display = 'block';
+		grid_rect = grid.getBoundingClientRect();
 		setScene('lab_grid')
 	} else {
 		grid.style.display = 'none';
