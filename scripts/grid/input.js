@@ -1,4 +1,6 @@
-mouse = {x:0,y:0,down:false};
+mouse = {x:0,y:0,down:false,mode:'extract'};
+
+var extract_size = 5;
 
 grid.status = true;
 grid.speed = 2;
@@ -54,9 +56,11 @@ var highlight = {x:undefined,y:undefined,color:colors.g};
 
 window.onclick = function(e) {
 	if (mouse.x >= 0 && mouse.x <= grid.width && mouse.y >= 0 && mouse.y <= grid.height) {
-		let cell = getCell(mouse.x,mouse.y);
-		setCell(cell, behavior_setting);
-		behavior[behavior_setting].cells.push(cell);
+		if (mouse.mode=='set') {
+			let cell = getCell(mouse.x,mouse.y);
+			setCell(cell, behavior_setting);
+			behavior[behavior_setting].cells.push(cell);
+		}
 
 		//debug(cell)
 	}
@@ -88,9 +92,11 @@ function gridMousemove(e) {
 	highlight.y = mouse.y;
 
 	if (mouse.down && mouse.x >= 0 && mouse.x <= grid.width && mouse.y >= 0 && mouse.y <= grid.height) {
-		let cell = getCell(mouse.x,mouse.y);
-		setCell(cell, behavior_setting);
-		behavior[behavior_setting].cells.push(cell);
+		if (mouse.mode=='set') {
+			let cell = getCell(mouse.x,mouse.y);
+			setCell(cell, behavior_setting);
+			behavior[behavior_setting].cells.push(cell);
+		}
 
 		//debug(cell)
 	}

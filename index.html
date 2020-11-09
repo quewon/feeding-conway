@@ -143,7 +143,9 @@
 			<canvas id="fg" class="world"></canvas>
 		</div>
 
-		<canvas style="display:none" id="grid"></canvas>
+		<div id="workstation">
+			<canvas style="display:none" id="grid"></canvas>
+		</div>
 
 		<div style="display:none" id="dialog_box">
 			<span id="text"></span>
@@ -152,7 +154,7 @@
 	</div>
 
 	<script src="scripts/main.js"></script>
-	
+
 	<script src="scripts/world/bg.js"></script>
 	<script src="scripts/world/chars.js"></script>
 	<script src="scripts/world/fg.js"></script>
@@ -172,11 +174,13 @@
 		door_icon.width *= ps;
 		door_icon.height *= ps;
 
-		genEmptyCells();
-		world.on = true;
-		//setScene('train_light');
-		setScene('lab');
-		animate();
+		window.onload = function() {
+			genCells();
+			world.on = true;
+			//setScene('train_light');
+			setScene('lab');
+			animate();
+		}
 	</script>
 </body>
 </html>

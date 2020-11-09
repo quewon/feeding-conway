@@ -12,7 +12,7 @@ var cells = [];
 var active_cells = [];
 var cell_length = cell_v = cell_h = 0;
 
-function genEmptyCells() {
+function genCells() {
 	let vc = Math.ceil(grid.height / cellsize);
 	let hc = Math.ceil(grid.width / cellsize);
 
@@ -35,6 +35,56 @@ function genEmptyCells() {
 	getChunkArray();
 }
 
+function emptyGrid() {
+	let bs = Object.keys(behavior);
+	let i=0, len = bs.length;
+	while (i<len) {
+		let b = behavior[bs[i]];
+		let ii=0, lenn=b.cells.length;
+		while (ii<lenn) {
+			clearCell(b.cells[ii])
+			ii++
+		}
+		b.cells = [];
+		i++
+	}
+}
+
+var grids = {};
+
+function saveGrid(name) {
+	if (name in grids) {
+		name = name+"+";
+		saveGrid(name);
+		return
+	}
+
+	grids[name] = [];
+	let i=0;
+	while (i<cell_length) {
+		grids[name].push(cells[i].color)
+		i++
+	}
+}
+
+function loadGrid(g) {
+	emptyGrid();
+	g = grids[g];
+	let bs = Object.keys(behavior);
+	let i=0;
+	while (i<cell_length) {
+		if (g[i] != undefined) {
+			for (let ii=0; ii<bs.length; ii++) {
+				let b = behavior[bs[ii]];
+				if (g[i]==b.color) {
+					b.cells.push(i)
+				}
+			}
+		}
+		i++
+	}
+}
+
 //animation
 function drawGrid() {
 	let i=0;
@@ -47,11 +97,36 @@ function drawGrid() {
 	let hl = cells[getCell(highlight.x, highlight.y)];
 	if (hl != undefined) {
 		grid_context.fillStyle = highlight.color;
-		grid_context.fillRect((hl.x-1)*cellsize, hl.y*cellsize, cellsize, cellsize);
-		grid_context.fillRect(hl.x*cellsize, hl.y*cellsize, cellsize, cellsize);
-		grid_context.fillRect((hl.x+1)*cellsize, hl.y*cellsize, cellsize, cellsize);
-		grid_context.fillRect(hl.x*cellsize, (hl.y+1)*cellsize, cellsize, cellsize);
-		grid_context.fillRect(hl.x*cellsize, (hl.y-1)*cellsize, cellsize, cellsize);
+		if (mouse.mode=='set') {
+			grid_context.fillRect((hl.x-1)*cellsize, hl.y*cellsize, cellsize, cellsize);
+			grid_context.fillRect(hl.x*cellsize, hl.y*cellsize, cellsize, cellsize);
+			grid_context.fillRect((hl.x+1)*cellsize, hl.y*cellsize, cellsize, cellsize);
+			grid_context.fillRect(hl.x*cellsize, (hl.y+1)*cellsize, cellsize, cellsize);
+			grid_context.fillRect(hl.x*cellsize, (hl.y-1)*cellsize, cellsize, cellsize);
+		}
+
+		else if (mouse.mode=='extract') {
+			i=extract_size*-1;
+			while(i<extract_size+1) {
+				grid_context.fillRect((hl.x-extract_size)*cellsize, (hl.y+i)*cellsize, cellsize, cellsize);
+				i++
+			}
+			i=extract_size*-1;
+			while(i<extract_size+1) {
+				grid_context.fillRect((hl.x+extract_size)*cellsize, (hl.y+i)*cellsize, cellsize, cellsize);
+				i++
+			}
+			i=extract_size*-1;
+			while(i<extract_size+1) {
+				grid_context.fillRect((hl.x+i)*cellsize, (hl.y+extract_size)*cellsize, cellsize, cellsize);
+				i++
+			}
+			i=extract_size*-1;
+			while(i<extract_size+1) {
+				grid_context.fillRect((hl.x+i)*cellsize, (hl.y-extract_size)*cellsize, cellsize, cellsize);
+				i++
+			}
+		}
 	}
 }
 
