@@ -1,4 +1,4 @@
-mouse = {x:undefined,y:undefined,down:false,mode:'extract'};
+mouse = {x:undefined,y:undefined,down:false,mode:'place'};
 
 var extract_size = 5;
 
@@ -76,13 +76,48 @@ var highlight = {x:undefined,y:undefined,color:colors.g,down:false};
 
 function gridClick(e) {
 	if (mouse.x >= 0 && mouse.x <= grid.width && mouse.y >= 0 && mouse.y <= grid.height) {
+		let cell = getCell(mouse.x,mouse.y);
 		if (mouse.mode=='set') {
-			let cell = getCell(mouse.x,mouse.y);
 			setCell(cell, behavior_setting);
 			behavior[behavior_setting].cells.push(cell);
 		}
-		else if (mouse.mode=='place') {
-			//TODO place the thing on the thing
+		else if (mouse.mode=='place' && highlight.down) {
+			let hl = cells[cell];
+
+			let s=(extract_size*2)-1;
+			let fx = hl.x-extract_size+1;
+			let fy = hl.y-extract_size+1;
+			
+			let i=0, iii=0;
+			while (i<s) {
+				let ii=0;
+				while (ii<s) {
+					let color = highlight.down[iii];
+					let e = getCell((fx+ii)*cellsize, (fy+i)*cellsize);
+
+					if (color != colors.bg) {
+						//find behavior of color
+						let bs = Object.keys(behavior);
+						bi=0; len=bs.length;
+						while (bi<len) {
+							let b = behavior[bs[bi]];
+							if (color==b.color) {
+								console.log(color, b.color);
+								setCell(e, bs[bi]);
+								b.cells.push(e);
+							}
+							bi++
+						}
+					}
+
+					iii++;
+					ii++
+				}
+				i++
+			}
+
+			tray.removeChild(tray.querySelector('canvas'));
+			highlight.down = false;
 		}
 		//debug(cell)
 	}

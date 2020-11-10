@@ -115,8 +115,21 @@ function drawGrid() {
 			}
 
 			else if (mouse.mode=='place') {
-				console.log(highlight.down);
-				//TODOdraw the thing on the thing
+				let i=0, iii=0;
+				let s=(extract_size*2)-1;
+				let fx = hl.x-extract_size+1;
+				let fy = hl.y-extract_size+1;
+
+				while (i<s) {
+					let ii=0;
+					while (ii<s) {
+						grid_context.fillStyle = highlight.down[iii];
+						grid_context.fillRect((fx+ii)*cellsize, (fy+i)*cellsize, cellsize, cellsize);
+						iii++;
+						ii++
+					}
+					i++
+				}
 			}
 		}
 	}

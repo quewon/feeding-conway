@@ -187,7 +187,9 @@
 		door_icon.height *= ps;
 
 		window.onload = function() {
-			genRandomCells();
+			genCells();
+			createSample(["#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#4e5c67", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#4e5c67", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#4e5c67", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7"]);
+			highlight.down = tray.querySelector('canvas').celldata;
 			world.on = true;
 			//setScene('train_light');
 			setScene('lab');

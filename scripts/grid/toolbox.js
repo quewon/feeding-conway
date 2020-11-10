@@ -97,13 +97,20 @@ function extract() {
 
 	if (meaningless_extraction) { return }
 
+	//draw cells on canvas
+	createSample(c)
+}
+
+function createSample(c) {
+	let s = (extract_size*2)-1;
+	
 	//create canvas
 	let canvas = document.createElement('canvas');
 	let canvas_context = canvas.getContext('2d');
 	canvas.className = "sample";
 	tray.appendChild(canvas);
 
-	//draw cells on canvas
+	//draw on canvas
 	canvas.width = canvas.height = s*cellsize;
 	let csize = canvas.width / 2;
 	canvas.style.width = canvas.style.height = csize+"px";
