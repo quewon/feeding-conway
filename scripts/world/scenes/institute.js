@@ -20,7 +20,12 @@ INTERACT.dropper = function() {
 	mouse.mode = 'set';
 };
 INTERACT.extractor = function() {
+	highlight.down = false;
 	mouse.mode = 'extract';
+};
+INTERACT.placer = function() {
+	mouse.mode = 'place';
+	highlight.down = tray.querySelector('canvas').celldata;
 };
 
 createBG('lab', 0, 91, 145, 46, "light", "up");
@@ -49,6 +54,7 @@ scenes.lab = {
 createBG('lab_toolbox', 0, 91, 145, 46, "light", "up");
 createChar('dropper', false, 0, 0, 7, 14);
 createChar('extractor', false, 0, 0, 14, 10);
+createChar('placer', false, 0, 0, 8, 9);
 scenes.lab_toolbox = {
 	title: '🧫🧪',
 	bg: 'lab_toolbox',
@@ -61,6 +67,11 @@ scenes.lab_toolbox = {
 		{
 			name: 'extractor',
 			x: 125,
+			y: 3
+		},
+		{
+			name: 'placer',
+			x: 138,
 			y: 3
 		},
 		{

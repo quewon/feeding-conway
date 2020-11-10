@@ -85,7 +85,7 @@ function drawGrid() {
 			grid_context.fillRect(hl.x*cellsize, (hl.y-1)*cellsize, cellsize, cellsize);
 		}
 
-		else if (mouse.mode=='extract') {
+		else if (mouse.mode=='extract' || mouse.mode=='place') {
 			i=extract_size*-1;
 			while(i<extract_size+1) {
 				grid_context.fillRect((hl.x-extract_size)*cellsize, (hl.y+i)*cellsize, cellsize, cellsize);
@@ -112,6 +112,11 @@ function drawGrid() {
 			if (mouse.mode=='extract') {
 				let f = extract_size*2-1;
 				grid_context.fillRect((hl.x-extract_size+1)*cellsize, (hl.y-extract_size+1)*cellsize, f*cellsize, f*cellsize);
+			}
+
+			else if (mouse.mode=='place') {
+				console.log(highlight.down);
+				//TODOdraw the thing on the thing
 			}
 		}
 	}

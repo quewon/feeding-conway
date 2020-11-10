@@ -51,6 +51,8 @@ function loadGrid(g) {
 var tray = document.getElementById("tray");
 
 function extract() {
+	let meaningless_extraction = true;
+
 	if (tray.style.display=='none') { tray.style.display = 'block' }
 
 	//get cells you're extracting
@@ -74,6 +76,7 @@ function extract() {
 			}
 
 			if (color!=colors.bg) {
+				meaningless_extraction = false;
 				let bs = Object.keys(behavior);
 				bi=0; len=bs.length;
 				while (bi<len) {
@@ -91,6 +94,8 @@ function extract() {
 		}
 		i++
 	}
+
+	if (meaningless_extraction) { return }
 
 	//create canvas
 	let canvas = document.createElement('canvas');
@@ -119,6 +124,6 @@ function extract() {
 	canvas.celldata = c;
 }
 
-function place(data) {
-
+function place() {
+	let data = tray.querySelector('canvas').celldata;
 }

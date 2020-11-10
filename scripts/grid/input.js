@@ -54,8 +54,13 @@ window.onmouseup = function() {
 			highlight.down = false
 			extract()
 		}
+		else if (mouse.mode=='place') {
+			//TODO place the thing on the thing
+		}
 	} else {
-		highlight.down = false
+		if (mouse.mode=='extract') {
+			highlight.down = false
+		}
 	}
 };
 
@@ -75,6 +80,9 @@ function gridClick(e) {
 			let cell = getCell(mouse.x,mouse.y);
 			setCell(cell, behavior_setting);
 			behavior[behavior_setting].cells.push(cell);
+		}
+		else if (mouse.mode=='place') {
+			//TODO place the thing on the thing
 		}
 		//debug(cell)
 	}
