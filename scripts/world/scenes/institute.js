@@ -5,7 +5,8 @@ INTERACT.workstation = function() {
 		grid.style.display = 'block';
 		grid_rect = grid.getBoundingClientRect();
 	} else {
-		setScene('lab')
+		grid.style.display = 'none';
+		tray.style.display = "none";
 	}
 };
 INTERACT.toolbox = function() {
@@ -43,11 +44,7 @@ scenes.lab = {
 			name: 'player',
 			y: 124
 		}
-	],
-	extras: function() {
-		grid.style.display = 'none';
-		tray.style.display = "none"
-	}
+	]
 };
 createBG('lab_toolbox', 0, 91, 145, 46, "light", "up");
 createChar('dropper', false, 0, 0, 7, 14);
