@@ -32,7 +32,7 @@ createBG('lab', 0, 91, 145, 46, "light", "up");
 createChar('workstation', false, 0, 0, 18, 13);
 createChar('toolbox', false, 0, 0, 10, 7);
 scenes.lab = {
-	title: '🧫🧪',
+	//title: '🧫🧪',
 	bg: 'lab',
 	chars: [
 		{
@@ -56,7 +56,6 @@ createChar('dropper', false, 0, 0, 7, 14);
 createChar('extractor', false, 0, 0, 14, 10);
 createChar('placer', false, 0, 0, 8, 9);
 scenes.lab_toolbox = {
-	title: '🧫🧪',
 	bg: 'lab_toolbox',
 	chars: [
 		{

@@ -123,8 +123,10 @@ function drawGrid() {
 				while (i<s) {
 					let ii=0;
 					while (ii<s) {
-						grid_context.fillStyle = highlight.down[iii];
-						grid_context.fillRect((fx+ii)*cellsize, (fy+i)*cellsize, cellsize, cellsize);
+						if (highlight.down[iii] != colors.bg) {
+							grid_context.fillStyle = highlight.down[iii];
+							grid_context.fillRect((fx+ii)*cellsize, (fy+i)*cellsize, cellsize, cellsize);
+						}
 						iii++;
 						ii++
 					}
