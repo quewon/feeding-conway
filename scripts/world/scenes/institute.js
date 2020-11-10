@@ -1,15 +1,19 @@
 INTERACT.workstation = function() {
 	grid.on = !grid.on;
 	if (grid.on) {
+		tray.style.display = "block";
 		grid.style.display = 'block';
 		grid_rect = grid.getBoundingClientRect();
 	} else {
-		grid.style.display = 'none';
 		setScene('lab')
 	}
 };
 INTERACT.toolbox = function() {
-	setScene('lab_toolbox')
+	if (scenes.current=='lab_toolbox') {
+		setScene('lab')
+	} else {
+		setScene('lab_toolbox')
+	}
 };
 INTERACT.dropper = function() {
 	mouse.mode = 'set';
@@ -40,6 +44,10 @@ scenes.lab = {
 			y: 124
 		}
 	],
+	extras: function() {
+		grid.style.display = 'none';
+		tray.style.display = "none"
+	}
 };
 createBG('lab_toolbox', 0, 91, 145, 46, "light", "up");
 createChar('dropper', false, 0, 0, 7, 14);
@@ -67,5 +75,5 @@ scenes.lab_toolbox = {
 		{
 			name: 'player'
 		}
-	],
+	]
 };
