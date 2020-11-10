@@ -92,14 +92,13 @@ function gridClick(e) {
 					let color = highlight.down[iii];
 					let e = getCell((fx+ii)*cellsize, (fy+i)*cellsize);
 
-					if (color != colors.bg) {
+					if (color != colors.bg && e) {
 						//find behavior of color
 						let bs = Object.keys(behavior);
 						bi=0; len=bs.length;
 						while (bi<len) {
 							let b = behavior[bs[bi]];
 							if (color==b.color) {
-								console.log(color, b.color);
 								setCell(e, bs[bi]);
 								b.cells.push(e);
 							}
