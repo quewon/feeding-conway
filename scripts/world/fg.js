@@ -1,7 +1,6 @@
 //init
 var fg = document.getElementById("fg");
 var fg_context = fg.getContext("2d");
-var world_style = getComputedStyle(document.getElementById('world'));
 fg.width = parseInt(world_style["width"]);
 fg.height = parseInt(world_style["height"]);
 fg_context.imageSmoothingEnabled = false;

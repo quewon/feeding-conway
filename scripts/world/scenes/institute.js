@@ -3,23 +3,37 @@ INTERACT.workstation = function() {
 	if (grid.on) {
 		grid.style.display = 'block';
 		grid_rect = grid.getBoundingClientRect();
-		setScene('lab_grid')
 	} else {
 		grid.style.display = 'none';
 		setScene('lab')
 	}
 };
+INTERACT.toolbox = function() {
+	setScene('lab_toolbox')
+};
+INTERACT.dropper = function() {
+	mouse.mode = 'set';
+};
+INTERACT.extractor = function() {
+	mouse.mode = 'extract';
+};
 
 createBG('lab', 0, 91, 145, 46, "light", "up");
 createChar('workstation', false, 0, 0, 18, 13);
+createChar('toolbox', false, 0, 0, 10, 7);
 scenes.lab = {
 	title: '🧫🧪',
 	bg: 'lab',
 	chars: [
 		{
 			name: 'workstation',
-			x: 10,
+			x: 70,
 			y: 124
+		},
+		{
+			name: 'toolbox',
+			x: 59,
+			y: 131
 		},
 		{
 			name: 'player',
@@ -27,19 +41,31 @@ scenes.lab = {
 		}
 	],
 };
-createBG('lab_grid', 0, 91, 145, 46, "light", "up");
-scenes.lab_grid = {
+createBG('lab_toolbox', 0, 91, 145, 46, "light", "up");
+createChar('dropper', false, 0, 0, 7, 14);
+createChar('extractor', false, 0, 0, 14, 10);
+scenes.lab_toolbox = {
 	title: '🧫🧪',
-	bg: 'lab_grid',
+	bg: 'lab_toolbox',
 	chars: [
 		{
-			name: 'workstation',
-			x: 10,
-			y: 124
+			name: 'dropper',
+			x: 119,
+			y: 3
 		},
 		{
-			name: 'player',
-			y: 124
+			name: 'extractor',
+			x: 125,
+			y: 3
+		},
+		{
+			name: 'workstation'
+		},
+		{
+			name: 'toolbox'
+		},
+		{
+			name: 'player'
 		}
 	],
 };

@@ -38,25 +38,24 @@
 		       -moz-user-select: none;
 		        -ms-user-select: none;
 		            user-select: none;
+		    overflow: hidden;
 		}
 
-		#world {
+		.world {
 			position: absolute;
+			top: 0;
 			width: var(--world-width);
 			height: var(--world-height);
 		}
 
 		#grid {
 			position: absolute;
-			top: calc(var(--pixel-size) * 2.3px);
+			top: 0;
 		    left: 50%;
 		    transform: translateX(-50%);
 			width: var(--grid-size);
 			height: var(--grid-size);
-		}
-
-		.world {
-			position: absolute;
+			border: calc(var(--pixel-size) * 1px) solid #1c4d65;
 		}
 
 		#dialog_box {
@@ -128,6 +127,17 @@
 			position: relative;
 			float: right;
 		}
+
+		#tray {
+			width: calc((100% - var(--grid-size)) / 2);
+			position: absolute;
+		}
+
+		.sample {
+			margin: 0;
+			border: calc(var(--pixel-size) * 1px) solid #1c4d65;
+			margin-right: calc(var(--pixel-size) * 1px);
+		}
 	</style>
 </head>
 
@@ -136,24 +146,23 @@
 
 		<canvas id="px" class="world"></canvas>
 		<img style="display:none" id="controls" src="assets/controls.gif" width=17 height=20>
-		<div id="world">
-			<canvas id="bg" class="world"></canvas>
-			<canvas id="char" class="world"></canvas>
-			<img style="display:none" id="door_icon" src="assets/door_icon.gif" width=8 height=7>
-			<canvas id="fg" class="world"></canvas>
-		</div>
 
-		<div id="workstation">
-			<canvas style="display:none" id="grid"></canvas>
-		</div>
+		<canvas id="bg" class="world"></canvas>
+		<canvas id="char" class="world"></canvas>
+		<img style="display:none" id="door_icon" src="assets/door_icon.gif" width=8 height=7>
+
+		<canvas style="display:none" id="toolbox"></canvas>
+		<span style="display:none" id="tray"></span>
+
+		<canvas id="fg" class="world"></canvas>
+
+		<canvas style="display:none" id="grid"></canvas>
 
 		<div style="display:none" id="dialog_box">
 			<span id="text"></span>
 		</div>
 
 	</div>
-
-	<script src="scripts/main.js"></script>
 
 	<script src="scripts/world/bg.js"></script>
 	<script src="scripts/world/chars.js"></script>
@@ -165,9 +174,12 @@
 	<script src="scripts/world/scenes/station.js"></script>
 	<script src="scripts/world/scenes/institute.js"></script>
 
-	<script src="scripts/grid/canvas.js"></script>
+	<script src="scripts/grid/grid.js"></script>
+	<script src="scripts/grid/toolbox.js"></script>
 	<script src="scripts/grid/behavior.js"></script>
 	<script src="scripts/grid/input.js"></script>
+
+	<script src="scripts/main.js"></script>
 	<script>
 		controls.width *= ps;
 		controls.height *= ps;
@@ -175,7 +187,7 @@
 		door_icon.height *= ps;
 
 		window.onload = function() {
-			genCells();
+			genRandomCells();
 			world.on = true;
 			//setScene('train_light');
 			setScene('lab');

@@ -1,4 +1,4 @@
-mouse = {x:0,y:0,down:false,mode:'extract'};
+mouse = {x:undefined,y:undefined,down:false,mode:'extract'};
 
 var extract_size = 5;
 
@@ -40,28 +40,42 @@ grid.update = function() {
 };
 
 grid.onmousedown = function() {
-	if (grid.on) { mouse.down = true }
+	mouse.down = true;
+
+	if (mouse.mode=='extract') {
+		highlight.down = true
+	}
 };
-window.onmouseup = function() { mouse.down = false };
+window.onmouseup = function() {
+	if (grid.on) { mouse.down = false }
+
+	if (mouse.x >= 0 && mouse.x <= grid.width && mouse.y >= 0 && mouse.y <= grid.height) {
+		if (mouse.mode=='extract') {
+			highlight.down = false
+			extract()
+		}
+	} else {
+		highlight.down = false
+	}
+};
 
 grid.ontouchstart = function() {
-	if (grid.on) { mouse.down = true }
+	mouse.down = true
 };
 window.ontouchend = function() {
 	mouse.down = false;
 	highlight.x = highlight.y = undefined;
 };
 
-var highlight = {x:undefined,y:undefined,color:colors.g};
+var highlight = {x:undefined,y:undefined,color:colors.g,down:false};
 
-window.onclick = function(e) {
+function gridClick(e) {
 	if (mouse.x >= 0 && mouse.x <= grid.width && mouse.y >= 0 && mouse.y <= grid.height) {
 		if (mouse.mode=='set') {
 			let cell = getCell(mouse.x,mouse.y);
 			setCell(cell, behavior_setting);
 			behavior[behavior_setting].cells.push(cell);
 		}
-
 		//debug(cell)
 	}
 }

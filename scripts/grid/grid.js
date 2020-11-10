@@ -35,54 +35,34 @@ function genCells() {
 	getChunkArray();
 }
 
-function emptyGrid() {
-	let bs = Object.keys(behavior);
-	let i=0, len = bs.length;
-	while (i<len) {
-		let b = behavior[bs[i]];
-		let ii=0, lenn=b.cells.length;
-		while (ii<lenn) {
-			clearCell(b.cells[ii])
-			ii++
-		}
-		b.cells = [];
-		i++
-	}
-}
+function genRandomCells() {
+	let vc = Math.ceil(grid.height / cellsize);
+	let hc = Math.ceil(grid.width / cellsize);
 
-var grids = {};
+	let cellnumber = 0;
 
-function saveGrid(name) {
-	if (name in grids) {
-		name = name+"+";
-		saveGrid(name);
-		return
-	}
+	for (let i=0; i<vc; i++) {
+		for (let ii=0; ii<hc; ii++) {
+			cells[cellnumber] = {};
+			cells[cellnumber].x = ii;
+			cells[cellnumber].y = i;
+			cells[cellnumber].chunk = setChunk(cellnumber);
 
-	grids[name] = [];
-	let i=0;
-	while (i<cell_length) {
-		grids[name].push(cells[i].color)
-		i++
-	}
-}
-
-function loadGrid(g) {
-	emptyGrid();
-	g = grids[g];
-	let bs = Object.keys(behavior);
-	let i=0;
-	while (i<cell_length) {
-		if (g[i] != undefined) {
-			for (let ii=0; ii<bs.length; ii++) {
-				let b = behavior[bs[ii]];
-				if (g[i]==b.color) {
-					b.cells.push(i)
-				}
+			if (Math.floor(Math.random() * 5) == 1) {
+				let b = Object.keys(behavior)[Math.floor(Math.random() * Object.keys(behavior).length)];
+				setCell(cellnumber, b);
+			} else {
+				cells[cellnumber].color = colors.bg;
+				cells[cellnumber].behavior = undefined;
 			}
+
+			cellnumber++;
 		}
-		i++
 	}
+
+	cell_length = cells.length;
+	
+	getChunkArray();
 }
 
 //animation
@@ -125,6 +105,13 @@ function drawGrid() {
 			while(i<extract_size+1) {
 				grid_context.fillRect((hl.x+i)*cellsize, (hl.y-extract_size)*cellsize, cellsize, cellsize);
 				i++
+			}
+		}
+
+		if (highlight.down) {
+			if (mouse.mode=='extract') {
+				let f = extract_size*2-1;
+				grid_context.fillRect((hl.x-extract_size+1)*cellsize, (hl.y-extract_size+1)*cellsize, f*cellsize, f*cellsize);
 			}
 		}
 	}
@@ -291,13 +278,4 @@ function getCell(x, y) {
 	}
 
 	return null
-}
-
-function getRandomColor() {
-  var letters = '0123456789ABCDEF';
-  var color = '#';
-  for (var i = 0; i < 6; i++) {
-    color += letters[Math.floor(Math.random() * 16)];
-  }
-  return color;
 }

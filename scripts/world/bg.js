@@ -1,11 +1,11 @@
 //init
-var world = document.getElementById("world");
+var world = {};
 world.on = false;
 var text = document.getElementById("text");
 
 var bg = document.getElementById("bg");
 var bg_context = bg.getContext("2d");
-var world_style = getComputedStyle(document.getElementById('world'));
+var world_style = getComputedStyle(bg);
 bg.width = parseInt(world_style["width"]);
 bg.height = parseInt(world_style["height"]);
 bg_context.imageSmoothingEnabled = false;

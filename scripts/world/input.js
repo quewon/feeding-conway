@@ -59,7 +59,7 @@ function getChar(x, y) {
     return undefined
 }
 
-world.onclick = function() {
+container.onclick = function() {
     if (cursor.char) {
         interactChar(cursor.char)
     } else if (outlined) {

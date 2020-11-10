@@ -33,7 +33,11 @@ window.addEventListener("keyup", function(e) {
 	let k = e.keyCode || e.which;
 
 	worldKeyup(e);
-})
+});
+
+window.onclick = function(e) {
+	if (grid.on) { gridClick(e) }
+}
 
 window.onresize = function() {
     world_rect = bg.getBoundingClientRect();
@@ -41,10 +45,10 @@ window.onresize = function() {
 };
 
 var container = document.getElementById("container");
-container.onmousemove = function(e) {
+window.onmousemove = function(e) {
 	if (grid.on) { gridMousemove(e) }
 	worldMousemove(e);
 }
-container.onmouseout = function(e) {
+window.onmouseout = function(e) {
 	worldMouseout(e)
 }
