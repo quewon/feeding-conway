@@ -54,9 +54,6 @@ window.onmouseup = function() {
 			highlight.down = false
 			extract()
 		}
-		else if (mouse.mode=='place') {
-			//TODO place the thing on the thing
-		}
 	} else {
 		if (mouse.mode=='extract') {
 			highlight.down = false
@@ -117,7 +114,11 @@ function gridClick(e) {
 			}
 
 			tray.removeChild(tray.querySelector('canvas'));
-			highlight.down = false;
+			if (tray.querySelector('canvas')) {
+				highlight.down = tray.querySelector('canvas').celldata;
+			} else {
+				highlight.down = false;
+			}
 		}
 		//debug(cell)
 	}
