@@ -5,7 +5,7 @@
 <head>
 	<meta charset="UTF-8">
 	<link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
-	<title>🌻🌻</title>
+	<title>🌻</title>
 	<style>
 		:root {
 			--pixel-size: 5;
@@ -138,6 +138,12 @@
 			border: calc(var(--pixel-size) * 1px) solid #1c4d65;
 			margin-right: calc(var(--pixel-size) * 1px);
 		}
+
+		#world {
+			position: absolute;
+			width: inherit;
+			height: inherit;
+		}
 	</style>
 </head>
 
@@ -147,14 +153,16 @@
 		<canvas id="px" class="world"></canvas>
 		<img style="display:none" id="controls" src="assets/controls.gif" width=17 height=20>
 
-		<canvas id="bg" class="world"></canvas>
-		<canvas id="char" class="world"></canvas>
-		<img style="display:none" id="door_icon" src="assets/door_icon.gif" width=8 height=7>
+		<div id="world">
+			<canvas id="bg" class="world"></canvas>
+			<canvas id="char" class="world"></canvas>
+			<img style="display:none" id="door_icon" src="assets/door_icon.gif" width=8 height=7>
 
-		<canvas style="display:none" id="toolbox"></canvas>
-		<span style="display:none" id="tray"></span>
+			<canvas style="display:none" id="toolbox"></canvas>
+			<span style="display:none" id="tray"></span>
 
-		<canvas id="fg" class="world"></canvas>
+			<canvas id="fg" class="world"></canvas>
+		</div>
 
 		<canvas style="display:none" id="grid"></canvas>
 
@@ -191,7 +199,6 @@
 			createSample(["#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#4e5c67", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#4e5c67", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#4e5c67", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7", "#ebf2e7"]);
 			highlight.down = tray.querySelector('canvas').celldata;
 			world.on = true;
-			//setScene('train_light');
 			setScene('lab');
 			animate();
 		}

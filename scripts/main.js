@@ -32,7 +32,7 @@ window.addEventListener("keypress", function(e) {
 window.addEventListener("keyup", function(e) {
 	let k = e.keyCode || e.which;
 
-	worldKeyup(e);
+	worldKeyup(k);
 });
 
 window.onclick = function(e) {

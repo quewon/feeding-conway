@@ -64,8 +64,6 @@ container.onclick = function() {
         interactChar(cursor.char)
     } else if (outlined) {
         interactChar(outlined)
-    } else {
-        DIALOG.reset();
     }
 };
 

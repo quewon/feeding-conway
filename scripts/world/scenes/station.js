@@ -30,7 +30,7 @@ CHOICE.bob = [
 			DIALOG.print(DIALOG.bob2);
 			DIALOG.bob[0]++;
 			setTimeout(function() {
-				world.classList.remove('screenshake');
+				document.getElementById("world").classList.remove('screenshake');
 				setScene('train_station1')
 			},5000)
 		}
@@ -41,7 +41,7 @@ CHOICE.bob = [
 			DIALOG.print(DIALOG.bob3);
 			DIALOG.bob[0]++;
 			setTimeout(function() {
-				world.classList.remove('screenshake');
+				document.getElementById("world").classList.remove('screenshake');
 				setScene('train_station1')
 			},5000)
 		}
@@ -91,7 +91,7 @@ scenes.train_light = {
 			}
 	],
 	extras: function() {
-		world.classList.add('screenshake');
+		document.getElementById("world").classList.add('screenshake');
 		controls.style.display = "block";
 	}
 };
