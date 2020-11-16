@@ -39,6 +39,12 @@ grid.update = function() {
 	grid.counter++
 };
 
+function clearCell(cell) {
+	active_cells.splice(active_cells.indexOf(cell), 1);
+	cells[cell].behavior = undefined;
+	cells[cell].color = colors.bg;
+}
+
 grid.onmousedown = function() {
 	mouse.down = true;
 
@@ -51,7 +57,7 @@ window.onmouseup = function() {
 
 	if (mouse.x >= 0 && mouse.x <= grid.width && mouse.y >= 0 && mouse.y <= grid.height) {
 		if (mouse.mode=='extract') {
-			highlight.down = false
+			highlight.down = false;
 			extract()
 		}
 	} else {
@@ -75,7 +81,7 @@ function gridClick(e) {
 	if (mouse.x >= 0 && mouse.x <= grid.width && mouse.y >= 0 && mouse.y <= grid.height) {
 		let cell = getCell(mouse.x,mouse.y);
 		if (mouse.mode=='set') {
-			setCell(cell, behavior_setting);
+			active_cells.push(cell);
 			behavior[behavior_setting].cells.push(cell);
 		}
 		else if (mouse.mode=='place' && highlight.down) {
@@ -99,7 +105,7 @@ function gridClick(e) {
 						while (bi<len) {
 							let b = behavior[bs[bi]];
 							if (color==b.color) {
-								setCell(e, bs[bi]);
+								active_cells.push(e);
 								b.cells.push(e);
 							}
 							bi++
@@ -151,7 +157,7 @@ function gridMousemove(e) {
 	if (mouse.down && mouse.x >= 0 && mouse.x <= grid.width && mouse.y >= 0 && mouse.y <= grid.height) {
 		if (mouse.mode=='set') {
 			let cell = getCell(mouse.x,mouse.y);
-			setCell(cell, behavior_setting);
+			active_cells.push(cell);
 			behavior[behavior_setting].cells.push(cell);
 		}
 

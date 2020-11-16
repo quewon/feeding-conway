@@ -7,7 +7,7 @@ function emptyGrid() {
 		let b = behavior[bs[i]];
 		let ii=0, lenn=b.cells.length;
 		while (ii<lenn) {
-			clearCell(b.cells[ii])
+			clear_cells.push(b.cells[ii]);
 			ii++
 		}
 		b.cells = [];
@@ -55,9 +55,10 @@ function extract() {
 
 	if (tray.style.display=='none') { tray.style.display = 'block' }
 
-	//get cells you're extracting
+	//extract cells
 	let hl = cells[getCell(highlight.x, highlight.y)];
 	let c = [];
+	let cb = {};
 	let s = (extract_size*2)-1;
 
 	let fx = hl.x-extract_size+1;
@@ -83,7 +84,11 @@ function extract() {
 					let b = behavior[bs[bi]];
 					if (color==b.color) {
 						b.cells.splice(b.cells.indexOf(e), 1);
-						clearCell(e);
+						clear_cells.push(e);
+						if (cb[bs[bi]]==null) {
+							cb[bs[bi]] = 0;
+						}
+						cb[bs[bi]]++
 					}
 					bi++
 				}
@@ -97,8 +102,28 @@ function extract() {
 
 	if (meaningless_extraction) { return }
 
-	//draw cells on canvas
-	createSample(c)
+	//draw cells
+	createSample(c);
+
+	//get extraction information
+	i=0;
+	let cbk = Object.keys(cb);
+	let output = "";
+	let ss = 0;
+
+	while (i < cbk.length) {
+		ss += cb[cbk[i]];
+		i++
+	}
+
+	i=0;
+	while (i < cbk.length) {
+		let p = cb[cbk[i]] / ss * 100;
+		p = p.toFixed(0);
+		let name = behavior_names[cbk[i]];
+		output += name + ": " + p + "%";
+		i++
+	}
 }
 
 function createSample(c) {
@@ -129,8 +154,4 @@ function createSample(c) {
 	}
 
 	canvas.celldata = c;
-}
-
-function place() {
-	let data = tray.querySelector('canvas').celldata;
 }

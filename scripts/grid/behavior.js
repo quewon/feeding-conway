@@ -7,6 +7,14 @@ colors.f = '#4b858f';
 colors.g = '#1c4d65';
 
 const behavior = {};
+
+behavior_names = {
+	lazy: '🦥🦠',
+	hungry: '🍽️🦠',
+	popcorn: '🍿🦠',
+	gooey: '❄️🦠'
+}
+
 var behavior_setting = 'lazy';
 
 function subtractArray(a, b) {
@@ -184,12 +192,6 @@ function surroundingBehavior(cell, cs, b) {
 	}
 
 	return sb
-}
-
-function clearCell(cell) {
-	active_cells.splice(active_cells.indexOf(cell), 1);
-	cells[cell].behavior = undefined;
-	cells[cell].color = colors.bg;
 }
 
 function setCell(cell, b) {
